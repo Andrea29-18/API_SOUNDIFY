@@ -1,6 +1,8 @@
+const uuid = require('uuid').v4;
+
 const MOCK_USERS= [
     {
-        id: '1',
+        id: uuid(),
         name: 'Alejandra',
         country: 'Mexico'
     }
@@ -9,7 +11,7 @@ const MOCK_USERS= [
 const getAllUsers = (req, res) => {
     console.log('Listening to user');
 
-    res.json({
+    res.status(200).json({
         status: 'success',
         data: {
             user: MOCK_USERS
@@ -18,7 +20,23 @@ const getAllUsers = (req, res) => {
 }
 
 const saveUser = (req, res) => {
-    res.send('Saving!!');
+    const body = req.body;
+
+    // TODO: Send user to DB
+    const newUser = {
+        id:uuid(),
+        name:body.name,
+        country: body.country,
+    }
+
+    MOCK_USERS.push(newUser)
+
+    res.status(201).json({
+        status: 'sucesses',
+        data:{
+            user : newUser
+        }
+    });
 }
 
 module.exports = {
