@@ -1,6 +1,7 @@
 // Third party imports
 const express = require('express');
 const dotenv = require('dotenv');
+const mongose = require('mongoose');
 
 dotenv.config({path : './config.env' });
 
@@ -11,6 +12,12 @@ const albumRouter = require('./routes/album');
 const app = express();
 
 app.use(express.json());
+
+mongose.connect(process.env.DB_CONNECTION)
+               .then(connection => {
+                    console.log('Connected Success');
+               })
+               .catch(console.log);
 
 // Routes
 app.use('/api/v1/users', usersRouter);

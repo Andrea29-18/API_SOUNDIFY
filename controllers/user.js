@@ -1,6 +1,8 @@
+const User = require('../models/user');
+
 const uuid = require('uuid').v4;
 
-const MOCK_USERS= [
+const MOCK_USERS = [
     {
         id: uuid(),
         name: 'Alejandra',
@@ -21,11 +23,11 @@ const getAllUsers = (req, res) => {
 
 const getUserById = (req, res) => {
 
-    const {id} = req.params;
+    const { id } = req.params;
 
     const user = MOCK_USERS.find(user => user.id == id);
 
-    if(!user){
+    if (!user) {
         return res.status(404).json({
             status: 'failed',
             message: 'User not found, try with a correct id.'
@@ -34,40 +36,38 @@ const getUserById = (req, res) => {
 
     res.status(200).json({
         status: 'sucessed',
-        data:{
+        data: {
             user: user
         }
     });
 }
 
-const saveUser = (req, res) => {
+const saveUser = async (req, res) => {
     const body = req.body;
 
-    // TODO: Send user to DB
-    const newUser = {
-        id:uuid(),
-        name:body.name,
-        country: body.country,
+    try {
+
+        const newUser = await User.create(body);
+
+        res.status(201).json({
+            status: 'sucesses',
+            data: {
+                user: newUser
+            }
+        });
+    } catch {
+        console.log();
     }
-
-    MOCK_USERS.push(newUser)
-
-    res.status(201).json({
-        status: 'sucesses',
-        data:{
-            user : newUser
-        }
-    });
 }
 
 const deleteUser = (req, res) => {
 
-    const {id} = req.params;
+    const { id } = req.params;
 
     const userIndex = MOCK_USERS.findIndex(user => user.id == id);
 
-    
-    if(userIndex === -1){
+
+    if (userIndex === -1) {
         return res.status(404).json({
             status: 'failed',
             message: 'User not found, try with a correct id.'
@@ -80,7 +80,7 @@ const deleteUser = (req, res) => {
 
     res.status(200).json({
         status: 'sucessed',
-        data:{
+        data: {
             user: MOCK_USERS
         }
     });
@@ -92,7 +92,7 @@ const updateUser = (req, res) => {
 
     const userIndex = MOCK_USERS.findIndex(user => user.id === id);
 
-    if(userIndex === -1){
+    if (userIndex === -1) {
         res.status(404).json({
             status: 'failed',
             message: 'User not found, try with a correct id.'
@@ -106,7 +106,7 @@ const updateUser = (req, res) => {
 
     res.status(200).json({
         status: 'sucessed',
-        data:{
+        data: {
             user: MOCK_USERS[userIndex]
         }
     });
