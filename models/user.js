@@ -1,15 +1,30 @@
 const mongoose = require('mongoose');
 
-const userSheam = new mongoose.Schema({
-    name:{
+const usuarioSchema = new mongoose.Schema({
+    correo: {
         type: String,
-        require: [true, 'The name is require']
+        required: true,
+        unique: true,
+        maxlength: 320
     },
-    correo:String,
-    password:String,
-    numeroTele:Number
+    nombreDeUsuario: {
+        type: String,
+        maxlength: 25
+    },
+    contraseña: {
+        type: String,
+        maxlength: 100
+    },
+    numeroTelefonico: {
+        type: String,
+        maxlength: 10
+    },
+    artista: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Artista'
+    }
 });
 
-const User = mongoose.model('User',userSheam);
+const User = mongoose.model('User', usuarioSchema);
 
 module.exports = User;
