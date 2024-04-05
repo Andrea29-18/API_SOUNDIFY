@@ -1,12 +1,12 @@
 const express = require('express');
 
 const {
-    getAllProducts
+   // getAllProducts
 } = require('./../controllers/album');
 
 const router = express.Router();
 
-router.get('/', getAllProducts);
+//router.get('/', getAllProducts);
 
 
 module.exports = router;

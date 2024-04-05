@@ -1,18 +1,18 @@
 const express = require('express');
 
 const {
+    deleteUser,
     getAllUsers,
-    getUserById,
-    saveUser,
+    getUserByIdOrCorreo,
     updateUser,
-    deleteUser
+    saveUser,
 } = require('./../controllers/user');
 
 const router = express.Router();
 
 router.get('/', getAllUsers);
 
-router.get('/:id',getUserById)
+router.get('/:id',getUserByIdOrCorreo);
 
 router.post('/',saveUser);
 
