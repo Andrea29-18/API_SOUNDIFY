@@ -2,7 +2,7 @@ const express = require('express');
 
 const {
    // getAllProducts
-} = require('./../controllers/album');
+} = require('./../controllers/albumController');
 
 const router = express.Router();
 

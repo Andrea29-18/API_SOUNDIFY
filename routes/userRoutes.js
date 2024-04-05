@@ -6,7 +6,7 @@ const {
     getUserByIdOrCorreo,
     updateUser,
     saveUser,
-} = require('./../controllers/user');
+} = require('./../controllers/userController');
 
 const router = express.Router();
 

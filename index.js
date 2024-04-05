@@ -3,11 +3,11 @@ const express = require('express');
 const dotenv = require('dotenv');
 const mongose = require('mongoose');
 
-dotenv.config({path : './config.env' });
+dotenv.config({path : './config/config.env' });
 
 //Local imports
-const usersRouter = require('./routes/user');
-const albumRouter = require('./routes/album');
+const usersRouter = require('./routes/userRoutes');
+const albumRouter = require('./routes/albumRoutes');
 
 const app = express();
 
