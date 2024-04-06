@@ -1,12 +1,12 @@
-const Album = require('../models/Album');
+const Cancion = require('../models/Cancion');
 
-const getAllAlbums = async (req, res) => {
+const getAllCanciones = async (req, res) => {
     try {
-        const albums = await Album.find();
+        const canciones = await Cancion.find();
         res.status(200).json({
             status: 'success',
             data: {
-                albums
+                canciones
             }
         });
     } catch (error) {
@@ -18,20 +18,20 @@ const getAllAlbums = async (req, res) => {
     }
 }
 
-const getAlbumById = async (req, res) => {
+const getCancionById = async (req, res) => {
     const { id } = req.params;
     try {
-        const album = await Album.findById(id);
-        if (!album) {
+        const cancion = await Cancion.findById(id);
+        if (!cancion) {
             return res.status(404).json({
                 status: 'error',
-                message: 'Álbum no encontrado'
+                message: 'Canción no encontrada'
             });
         }
         res.status(200).json({
             status: 'success',
             data: {
-                album
+                cancion
             }
         });
     } catch (error) {
@@ -43,14 +43,14 @@ const getAlbumById = async (req, res) => {
     }
 }
 
-const saveAlbum = async (req, res) => {
+const saveCancion = async (req, res) => {
     const body = req.body;
     try {
-        const newAlbum = await Album.create(body);
+        const newCancion = await Cancion.create(body);
         res.status(201).json({
             status: 'success',
             data: {
-                album: newAlbum
+                cancion: newCancion
             }
         });
     } catch (error) {
@@ -62,21 +62,21 @@ const saveAlbum = async (req, res) => {
     }
 }
 
-const deleteAlbum = async (req, res) => {
+const deleteCancion = async (req, res) => {
     const { id } = req.params;
     try {
-        const deletedAlbum = await Album.findByIdAndDelete(id);
-        if (!deletedAlbum) {
+        const deletedCancion = await Cancion.findByIdAndDelete(id);
+        if (!deletedCancion) {
             return res.status(404).json({
                 status: 'error',
-                message: 'Álbum no encontrado'
+                message: 'Canción no encontrada'
             });
         }
         res.status(200).json({
             status: 'success',
-            message: 'Álbum eliminado correctamente',
+            message: 'Canción eliminada correctamente',
             data: {
-                album: deletedAlbum
+                cancion: deletedCancion
             }
         });
     } catch (error) {
@@ -88,22 +88,22 @@ const deleteAlbum = async (req, res) => {
     }
 }
 
-const updateAlbum = async (req, res) => {
+const updateCancion = async (req, res) => {
     const { id } = req.params;
     const newData = req.body;
     try {
-        const updatedAlbum = await Album.findByIdAndUpdate(id, newData, { new: true });
-        if (!updatedAlbum) {
+        const updatedCancion = await Cancion.findByIdAndUpdate(id, newData, { new: true });
+        if (!updatedCancion) {
             return res.status(404).json({
                 status: 'error',
-                message: 'Álbum no encontrado'
+                message: 'Canción no encontrada'
             });
         }
         res.status(200).json({
             status: 'success',
-            message: 'Álbum actualizado correctamente',
+            message: 'Canción actualizada correctamente',
             data: {
-                album: updatedAlbum
+                cancion: updatedCancion
             }
         });
     } catch (error) {
@@ -116,9 +116,9 @@ const updateAlbum = async (req, res) => {
 }
 
 module.exports = {
-    getAllAlbums,
-    getAlbumById,
-    saveAlbum,
-    deleteAlbum,
-    updateAlbum
+    getAllCanciones,
+    getCancionById,
+    saveCancion,
+    deleteCancion,
+    updateCancion
 }
