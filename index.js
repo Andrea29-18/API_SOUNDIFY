@@ -28,7 +28,8 @@ app.use('/api/v1/genero', generoRouter);
 app.use('/api/v1/usuario', usersRouter);
 
 
+const PORT = process.env.PORT || 3500;
 
-app.listen(3500, () => {
-    console.log('Listening');
+app.listen(PORT, () => {
+    console.log(`Escuchando en el puerto ${PORT}`);
 });
