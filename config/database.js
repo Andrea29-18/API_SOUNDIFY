@@ -28,7 +28,8 @@ module.exports = () => {
   const connect = () => {
     mongoose.connect(DB_URI, {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
+      useUnifiedTopology: true
+    
     })
     .then(() => {
       console.log('Conexión exitosa a la base de datos');

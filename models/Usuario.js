@@ -11,17 +11,13 @@ const usuarioSchema = new mongoose.Schema({
         type: String,
         maxlength: 25
     },
-    contraseña: {
+    password: {
         type: String,
         maxlength: 100
     },
     numeroTelefonico: {
         type: String,
         maxlength: 10
-    },
-    artista: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Artista'
     }
 });
 

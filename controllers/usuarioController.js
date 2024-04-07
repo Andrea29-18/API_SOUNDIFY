@@ -62,7 +62,7 @@ const saveUser = async (req, res) => {
 
     try {
         // Validar que se proporcionen todos los campos necesarios
-        if (!body.correo || !body.nombreUsuario || !body.password || !body.numeroTelefonico) {
+        if (!body.correo || !body.nombreDeUsuario || !body.password || !body.numeroTelefonico) {
             return res.status(400).json({
                 status: 'error',
                 message: 'Todos los campos son obligatorios'
