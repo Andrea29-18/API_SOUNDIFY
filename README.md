@@ -21,3 +21,20 @@ Esta es una API REST diseñada para el proyecto Soundify, una plataforma de stre
 
 
 ## Ejecutar el programa
+
+### Programas A Instalar
+- Visual Studio Code version 1.88.0
+- Node.js en el sistema operativo la versión v21.6.1
+- NPM la versión es 10.2.4
+- El framework de espress es 4.19.2
+- MongoDB su versión es v7.0.7
+
+### Descargar el programa
+1) Entrar a la liga de https://github.com/Andrea29-18/API_SOUNDIFY
+2) Seleccione el apartado de `code` -> `http` y se copia la URL
+![CODE](/images/code.png)
+3) Se dirige a la carpeta donde guardara el proyecto
+4) Una vez estandop en la carpeta abra su `gitbash` y poner `git clone` -> URL
+![git bash](/images/gitbash.png)
+5) Entre a su `visual studio code` seleccione `file` -> `open folder` y escoga el nombre de la carpeta **API_SOUNDIFY**
+6) Una vez estando dentro presione `CTRL + Ñ` para abrir una terminal
