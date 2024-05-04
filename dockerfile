@@ -1,13 +1,10 @@
-# Version de NODEJS
+# Version de NODEJS desde Docker
 FROM node:21.6.1
 
-# Puerto
-EXPOSE 3500
+# Directorio de trabajo
+WORKDIR /app
 
-# Archivos
-COPY . /app
-
-# Archivo package.json
+# Archivos que necesita el Directorio de trabajo
 COPY package*.json ./
 
 # Depencias
@@ -15,4 +12,8 @@ RUN npm -g install nodemon
 
 RUN npm install
 
-CMD [ "node", "start" ]
+# Archivos que necesito
+COPY . .
+
+#Ejecutar todo el proyecto
+CMD [ "npm", "start" ]
