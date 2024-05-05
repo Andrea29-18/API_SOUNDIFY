@@ -19,8 +19,5 @@ RUN npm i dotenv mongodb mongoose
 # Archivos que necesito
 COPY . .
 
-# Puerto
-EXPOSE 3500
-
 #Ejecutar todo el proyecto
 CMD [ "npm", "start" ]
