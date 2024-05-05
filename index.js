@@ -32,7 +32,7 @@ app.use('/api/v1/usuario', usersRouter);
 const errorhandler = require('./middlewares/errorhandler')
 app.use(errorhandler)
 
-const PORT = process.env.PORT || 3500;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Escuchando en el puerto ${PORT}`);

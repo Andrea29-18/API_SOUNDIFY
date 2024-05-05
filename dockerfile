@@ -1,23 +1,18 @@
 # Version de NODEJS desde Docker
-FROM node:21.6.1
-
-# Directorio de trabajo
-WORKDIR /app
+FROM node:19-alpine3.18
 
 # Archivos que necesita el Directorio de trabajo
+WORKDIR /app
+
 COPY package*.json ./
+
+COPY . .
+
+# Puerto
+EXPOSE 3000
 
 # Depencias
 RUN npm install 
 
-RUN npm i express
 
-RUN npm -g install nodemon
-
-RUN npm i dotenv mongodb mongoose
-
-# Archivos que necesito
-COPY . .
-
-#Ejecutar todo el proyecto
-CMD [ "npm", "start" ]
+CMD [ "node", "index.js" ]
