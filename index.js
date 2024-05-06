@@ -29,7 +29,7 @@ app.use('/api/v1/genero', generoRouter);
 app.use('/api/v1/usuario', usersRouter);
 
 
-const errorhandler = require('./middlewares/errorhandler')
+const errorhandler = require('./middleware/errorhandler')
 app.use(errorhandler)
 
 const PORT = process.env.PORT || 3000;

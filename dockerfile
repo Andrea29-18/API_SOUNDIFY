@@ -1,18 +1,20 @@
-# Version de NODEJS desde Docker
-FROM node:19-alpine3.18
+# Usa la imagen de Node.js 19 en Alpine Linux como base
+FROM  node:21.6.1
 
-# Archivos que necesita el Directorio de trabajo
+# Crea un directorio de trabajo en el contenedor
 WORKDIR /app
 
+# Copia los archivos necesarios para la construcción de la imagen
 COPY package*.json ./
 
+# Instala las dependencias
+RUN npm install
+
+# Copia el resto de los archivos de la aplicación
 COPY . .
 
-# Puerto
+# Expone el puerto 3000 para que la aplicación sea accesible desde fuera del contenedor
 EXPOSE 3000
 
-# Depencias
-RUN npm install 
-
-
-CMD [ "node", "index.js" ]
+# Ejecuta la aplicación
+CMD ["node", "index.js"]
