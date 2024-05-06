@@ -1,8 +1,6 @@
-// Third party imports
 const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/database');
-//middleware
 
 dotenv.config();
 
@@ -27,6 +25,7 @@ app.use('/api/v1/artista', artistaRouter);
 app.use('/api/v1/cancion', cancionRouter);
 app.use('/api/v1/genero', generoRouter);
 app.use('/api/v1/usuario', usersRouter);
+//app.get('*', ())
 
 
 const errorhandler = require('./middleware/errorhandler')
