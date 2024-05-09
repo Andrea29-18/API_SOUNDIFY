@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+//const mongoose = require('mongoose');
 const connectDB = require('./config/database');
 
 dotenv.config();
@@ -25,7 +26,8 @@ app.use('/api/v1/artista', artistaRouter);
 app.use('/api/v1/cancion', cancionRouter);
 app.use('/api/v1/genero', generoRouter);
 app.use('/api/v1/usuario', usersRouter);
-//app.get('*', ())
+app.get('*', (req,res) => {res.status(404).send() });
+
 
 
 const errorhandler = require('./middleware/errorhandler')
