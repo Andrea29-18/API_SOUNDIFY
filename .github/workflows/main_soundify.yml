@@ -59,4 +59,4 @@ jobs:
           app-name: 'Soundify'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F94294AC92F1478288FC850ABBDCD749 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BDA5246E265146AF8306DCC228871E7F }}
