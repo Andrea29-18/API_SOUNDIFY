@@ -5,7 +5,7 @@ const doc = {
         title: 'Node.js API de SOUNDIFY',
         description: 'API en node.js'
     },
-    host: 'soundify.azurewebsites.net:443'
+    host: 'https://soundify.azurewebsites.net/'
 };
 
 const outputfile = './swagger-output.json';
