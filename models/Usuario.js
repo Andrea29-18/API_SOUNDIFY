@@ -14,10 +14,6 @@ const usuarioSchema = new mongoose.Schema({
     password: {
         type: String,
         maxlength: 100
-    },
-    numeroTelefonico: {
-        type: String,
-        maxlength: 10
     }
 });
 
