@@ -21,9 +21,6 @@ app.use(express.json());
 
 connectDB();
 
-//SWAGGER
-app.use('/swagger', swaggerUI.serve, swaggerUI.setup(swaggerFile))
-
 
 // Routes
 app.use('/api/v1/album', albumRouter);
