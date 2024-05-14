@@ -1,20 +1,22 @@
 const errorhandler = (err, req, res, next) => {
-    console.log("Manejo de errores desde un middleware");
-    const defaultmensaje = 'La aplicacion esta ocupada. Inténtelo nuevamente más tarde.'
 
+    let mensaje = 'No se ha podido procesar la petición. Intentelo nuevamente más tarde.'
+    
     if(process.env.NODE_ENV === 'development'){
-        const statusCode = err.statusCode || 500
-        const message = err.message || defaultmensaje
+        const statusCode = err.statusCode || 400
+        
+        mensaje = err.message || mensaje
 
-        res.status(statusCode).json({
+        return res.status(statusCode).json({
             success: false,
-            status: statusCode,
-            message: message,
+            status: err.statusCode,
+            mensaje: mensaje,
             stack: err.stack
         })
-    }else{
-        res.status(200).send(defaultmensaje)
     }
+
+    return res.status(400).send({mensaje: mensaje})
+
 }
 
 module.exports = errorhandler
