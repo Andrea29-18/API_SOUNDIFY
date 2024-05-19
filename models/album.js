@@ -1,26 +1,29 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const albumSchema = new mongoose.Schema({
-  nombreAlbum: {
-    type: String,
-    maxlength: 72
+const albumSchema = new Schema({
+  NombreAlbum: { 
+    type: String, 
+    maxlength: 72,
+    required: true 
   },
-  descripcion: {
-    type: String,
-    maxlength: 150
+  Descripcion: { 
+    maxlength: 72,
+    type: String 
   },
-  fechaCreacion: Date,
-  genero: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Genero',
-    required: true
-  },
-  cancion: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Cancion'
-  }]
+  FechaCreacion: { 
+    type: Date, 
+    default: Date.now },
+  Artista: { 
+    type: Schema.Types.ObjectId, 
+    ref: 'Artista', 
+    required: true 
+  }, // Relación con Artista
+  GeneroMusical: { 
+    type: Schema.Types.ObjectId, 
+    ref: 'GeneroMusical', 
+    required: true 
+  } // Relación con Genero Musical
 });
 
-const Album = mongoose.model('Album', albumSchema);
-
-module.exports = Album;
+module.exports = mongoose.model('Album', albumSchema);

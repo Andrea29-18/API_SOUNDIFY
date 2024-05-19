@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const generoSchema = new mongoose.Schema({
-  nombreGenero: {
-    type: String,
-    maxlength: 72
-  }
+const generoMusicalSchema = new Schema({
+  NombreGenero: { 
+    type: String, 
+    maxlength: 72,
+    required: true, 
+    unique: true }
 });
 
-const Genero = mongoose.model('Genero', generoSchema);
-
-module.exports = Genero;
+module.exports = mongoose.model('GeneroMusical', generoMusicalSchema);

@@ -1,16 +1,19 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const cancionSchema = new mongoose.Schema({
-    nombreCancion: {
-      type: String,
-      maxlength: 72
-    },
-    idioma: {
-      type: String,
-      maxlength: 50
-    }
+const cancionSchema = new Schema({
+  NombreCancion: {
+     type: String, 
+     required: true 
+  },
+  Idioma: { 
+    type: String 
+  },
+  Album: { 
+    type: Schema.Types.ObjectId, 
+    ref: 'Album', 
+    required: true 
+  } // Relación con Album
 });
-  
-const Cancion = mongoose.model('Cancion', cancionSchema);
 
-module.exports = Cancion;
+module.exports = mongoose.model('Cancion', cancionSchema);
