@@ -8,7 +8,7 @@ const albumSchema = new Schema({
     required: true 
   },
   Descripcion: { 
-    maxlength: 72,
+    maxlength: 150,
     type: String 
   },
   FechaCreacion: { 

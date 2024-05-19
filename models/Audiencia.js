@@ -11,8 +11,14 @@ const audienciaSchema = new Schema({
         type: String,
         required: true
     },
+    Correo: { 
+        type: String,
+        maxlength: 320, 
+        required: true 
+    },
     NumeroTelefonico: { 
         type: String, 
+        maxlength: 10,
         required: true 
     },
     Canciones: [{ 

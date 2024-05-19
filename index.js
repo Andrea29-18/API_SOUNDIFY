@@ -2,8 +2,6 @@ const express = require('express');
 const dotenv = require('dotenv');
 //const mongoose = require('mongoose');
 const connectDB = require('./config/database');
-const swaggerUI = require('swagger-ui-express')
-const swaggerFile = require('./swagger-output.json')
 
 dotenv.config();
 

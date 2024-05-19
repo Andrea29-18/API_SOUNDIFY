@@ -4,10 +4,12 @@ const { Schema } = mongoose;
 const cancionSchema = new Schema({
   NombreCancion: {
      type: String, 
+     maxlength: 72,
      required: true 
   },
   Idioma: { 
-    type: String 
+    type: String,
+    maxlength: 50
   },
   Album: { 
     type: Schema.Types.ObjectId, 

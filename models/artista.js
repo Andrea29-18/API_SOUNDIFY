@@ -5,15 +5,20 @@ const artistaSchema = new Schema({
   NombreArtista: {
     type: String,
     required: true,
-    maxlength: 72
+    maxlength: 80
   },
   DescripcionGeneral: {
     type: String,
-    maxlength: 150
+    maxlength: 250
   },
   NumeroTelefonico: {
      type: String,
-     maxlength: 15
+     maxlength: 10
+  },
+  Correo: { 
+    type: String,
+    maxlength: 320, 
+    required: true
   },
   Albumes: [{ 
     type: Schema.Types.ObjectId, ref: 'Album' 
