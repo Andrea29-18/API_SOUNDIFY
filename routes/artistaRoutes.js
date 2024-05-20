@@ -1,18 +1,20 @@
 const express = require('express');
 const router = express.Router();
+const artistaController = require('../controllers/artistaController');
 
-const {
-    getAllArtistas,
-    getArtistaById,
-    saveArtista,
-    deleteArtista,
-    updateArtista
-} = require('../controllers/artistaController');
+// GET: /api/v2/artista
+router.get('/', artistaController.getAll);
 
-router.get('/', getAllArtistas);
-router.get('/:id', getArtistaById);
-router.post('/', saveArtista);
-router.delete('/:id', deleteArtista);
-router.patch('/:id', updateArtista);
+// GET: /api/v2/artista/:nombre
+router.get('/:nombre', artistaController.getByNombre);
+
+// POST: /api/v2/artista
+router.post('/', artistaController.create);
+
+// PUT: /api/v2/artista/:nombre
+router.put('/:nombre', artistaController.update);
+
+// DELETE: /api/v2/artista/:nombre
+router.delete('/:nombre', artistaController.delete);
 
 module.exports = router;

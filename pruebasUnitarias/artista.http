@@ -1,0 +1,44 @@
+### Obtener todos los artistas (GET)
+
+GET http://localhost:3000/api/v2/artista
+Content-Type: application/json
+
+###
+
+### Obtener un artista por NombreArtista (GET)
+
+GET http://localhost:3000/api/v2/artista/nombreDeArtista
+Content-Type: application/json
+
+###
+
+### Crear un nuevo artista (POST)
+
+POST http://localhost:3000/api/v2/artista
+Content-Type: application/json
+
+{
+    "Correo": "correo@ejemplo.com",
+    "DescripcionGeneral": "Descripción del artista"
+}
+
+###
+
+### Actualizar información de un artista existente (PUT)
+
+PUT http://localhost:3000/api/v2/artista/nombreDeArtista
+Content-Type: application/json
+
+{
+    "DescripcionGeneral": "Nueva descripción del artista",
+    "NumeroTelefonico": "9876543210"
+}
+
+###
+
+### Eliminar un artista (DELETE)
+
+DELETE http://localhost:3000/api/v2/artista/nombreDeArtista
+Content-Type: application/json
+
+###

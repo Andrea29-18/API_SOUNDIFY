@@ -7,6 +7,10 @@ const artistaSchema = new Schema({
     required: true,
     maxlength: 80
   },
+  Password: {
+    type: String,
+    required: true
+  },
   DescripcionGeneral: {
     type: String,
     maxlength: 250
@@ -21,7 +25,8 @@ const artistaSchema = new Schema({
     required: true
   },
   Albumes: [{ 
-    type: Schema.Types.ObjectId, ref: 'Album' 
+    type: Schema.Types.ObjectId, 
+    ref: 'Album' 
   }] 
 });
 

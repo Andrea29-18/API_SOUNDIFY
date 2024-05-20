@@ -1,11 +1,10 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/database');
-//Swagger
-const swaggerUi = require('swagger-ui-express');
-const swaggerFile = require('./swagger-output.json');
+
 
 dotenv.config();
+
 
 const albumRouter = require('./routes/albumRoutes');
 const artistaRouter = require('./routes/artistaRoutes');
@@ -14,19 +13,23 @@ const generoRouter = require('./routes/generoRoutes');
 const audienciaRouter = require('./routes/audienciaRoutes');
 
 //Siembra de datos
-const seedData = require('./seed/seedAudiencia');
-   
+//const seedAudiencia = require('./seed/seedAudiencia');
+//const seedArtista = require('./seed/seedArtista');
+
 const app = express();
 
 
-
-app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile));
-
 app.use(express.json());
 
-connectDB();
-seedData();
+//Swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
+
+connectDB();
+//seedAudiencia();
+//seedArtista();
 
 // Routes
 app.use('/api/v2/album', albumRouter);

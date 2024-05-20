@@ -127,12 +127,34 @@
         }
       }
     },
-    "/api/v2/artista/{id}": {
+    "/api/v2/artista/{nombreArtista}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "nombreArtista",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "nombreArtista",
             "in": "path",
             "required": true,
             "type": "string"
@@ -154,29 +176,7 @@
         "description": "",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "patch": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
+            "name": "nombreArtista",
             "in": "path",
             "required": true,
             "type": "string"
@@ -389,10 +389,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "nombreUsuario": {
+                "NombreUsuario": {
                   "example": "any"
                 },
-                "password": {
+                "Password": {
                   "example": "any"
                 }
               }
@@ -425,16 +425,16 @@
             "schema": {
               "type": "object",
               "properties": {
-                "correo": {
+                "Correo": {
                   "example": "any"
                 },
-                "nombreDeUsuario": {
+                "NombreUsuario": {
                   "example": "any"
                 },
-                "password": {
+                "Password": {
                   "example": "any"
                 },
-                "numeroTelefonico": {
+                "NumeroTelefonico": {
                   "example": "any"
                 }
               }

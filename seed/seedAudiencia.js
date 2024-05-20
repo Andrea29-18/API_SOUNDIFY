@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const Audiencia = require('../models/Audiencia');
 
-async function seedData() {
+async function seedAudienciaData() {
     try {
         // Eliminar todos los documentos existentes
         await Audiencia.deleteMany({});
@@ -13,7 +13,7 @@ async function seedData() {
                 Password: 'password1',
                 Correo: 'correo1@example.com',
                 NumeroTelefonico: '1234567890',
-                Canciones: [] // Aquí puedes poner los IDs de las canciones que quieras asociar
+                Canciones: []
             },
             {
                 NombreUsuario: 'usuario2',
@@ -22,7 +22,27 @@ async function seedData() {
                 NumeroTelefonico: '0987654321',
                 Canciones: []
             },
-            // Agrega tantos objetos como quieras
+            {
+                NombreUsuario: 'usuario3',
+                Password: 'password3',
+                Correo: 'correo3@example.com',
+                NumeroTelefonico: '1122334455',
+                Canciones: []
+            },
+            {
+                NombreUsuario: 'usuario4',
+                Password: 'password4',
+                Correo: 'correo4@example.com',
+                NumeroTelefonico: '2233445566',
+                Canciones: []
+            },
+            {
+                NombreUsuario: 'usuario5',
+                Password: 'password5',
+                Correo: 'correo5@example.com',
+                NumeroTelefonico: '3344556677',
+                Canciones: []
+            },
         ];
 
         // Encriptar las contraseñas antes de insertar los datos en la base de datos
@@ -36,11 +56,11 @@ async function seedData() {
 
         await Audiencia.insertMany(seededDataWithHashedPasswords);
 
-        console.log('Siembra de datos completada');
+        console.log('Siembra de datos de audiencia completada');
         mongoose.connection.close();
     } catch (error) {
-        console.error('Error durante la siembra de datos:', error);
+        console.error('Error durante la siembra de datos de audiencia:', error);
     }
 }
 
-module.exports = seedData;
+module.exports = seedAudienciaData;

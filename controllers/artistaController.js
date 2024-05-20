@@ -1,6 +1,10 @@
 const Artista = require('../models/Artista');
+const Audiencia = require('../models/Audiencia');
 
-const getAllArtistas = async (req, res) => {
+let self = {};
+
+// Obtener todos los artistas
+self.getAll = async (req, res) => {
     try {
         const artistas = await Artista.find();
         res.status(200).json({
@@ -18,10 +22,11 @@ const getAllArtistas = async (req, res) => {
     }
 }
 
-const getArtistaById = async (req, res) => {
-    const { id } = req.params;
+// Obtener un artista por nombre
+self.getByNombre = async (req, res) => {
+    const { nombre } = req.params;
     try {
-        const artista = await Artista.findById(id);
+        const artista = await Artista.findOne({ NombreArtista: nombre });
         if (!artista) {
             return res.status(404).json({
                 status: 'error',
@@ -43,14 +48,44 @@ const getArtistaById = async (req, res) => {
     }
 }
 
-const saveArtista = async (req, res) => {
-    const body = req.body;
+// Crear un artista a partir de los datos de audiencia
+self.create = async (req, res) => {
+    const { Correo, DescripcionGeneral } = req.body;
+
     try {
-        const newArtista = await Artista.create(body);
+        // Verificar si el usuario de la audiencia ya existe
+        const existingUser = await Audiencia.findOne({ Correo });
+        if (!existingUser) {
+            return res.status(400).json({
+                status: 'error',
+                message: 'El usuario no existe'
+            });
+        }
+
+        // Verificar si ya existe un artista con el mismo correo
+        const existingArtist = await Artista.findOne({ Correo });
+        if (existingArtist) {
+            return res.status(400).json({
+                status: 'error',
+                message: 'El artista ya existe con el mismo correo'
+            });
+        }
+
+        // Crear un nuevo artista con los datos del usuario de la audiencia
+        const newArtist = new Artista({
+            NombreArtista: existingUser.NombreUsuario,
+            Correo: existingUser.Correo,
+            NumeroTelefonico: existingUser.NumeroTelefonico,
+            DescripcionGeneral: DescripcionGeneral,
+            Password: existingUser.Password
+        });
+
+        await newArtist.save();
+
         res.status(201).json({
             status: 'success',
             data: {
-                artista: newArtista
+                artist: newArtist
             }
         });
     } catch (error) {
@@ -62,10 +97,11 @@ const saveArtista = async (req, res) => {
     }
 }
 
-const deleteArtista = async (req, res) => {
-    const { id } = req.params;
+// Eliminar un artista por nombre
+self.delete = async (req, res) => {
+    const { nombre } = req.params;
     try {
-        const deletedArtista = await Artista.findByIdAndDelete(id);
+        const deletedArtista = await Artista.findOneAndDelete({ NombreArtista: nombre });
         if (!deletedArtista) {
             return res.status(404).json({
                 status: 'error',
@@ -88,11 +124,13 @@ const deleteArtista = async (req, res) => {
     }
 }
 
-const updateArtista = async (req, res) => {
-    const { id } = req.params;
+// Actualizar un artista por nombre
+self.update = async (req, res) => {
+    const { nombre } = req.params;
     const newData = req.body;
+    
     try {
-        const updatedArtista = await Artista.findByIdAndUpdate(id, newData, { new: true });
+        const updatedArtista = await Artista.findOneAndUpdate({ NombreArtista: nombre }, newData, { new: true });
         if (!updatedArtista) {
             return res.status(404).json({
                 status: 'error',
@@ -115,10 +153,4 @@ const updateArtista = async (req, res) => {
     }
 }
 
-module.exports = {
-    getAllArtistas,
-    getArtistaById,
-    saveArtista,
-    deleteArtista,
-    updateArtista
-}
+module.exports = self;
