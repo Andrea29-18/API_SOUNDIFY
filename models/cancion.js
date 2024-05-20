@@ -11,6 +11,11 @@ const cancionSchema = new Schema({
     type: String,
     maxlength: 50
   },
+  Artista: { 
+    type: Schema.Types.ObjectId, 
+    ref: 'Artista', 
+    required: true 
+  },
   Album: { 
     type: Schema.Types.ObjectId, 
     ref: 'Album', 
