@@ -38,9 +38,9 @@ app.get('*', (req,res) => {res.status(404).send() });
 
 
 
-//const errorlogger = require('./middlewares/errorlogger.middleware')
-//const errorhandler = require('./middlewares/errorhandler.middleware')
-//app.use(errorlogger, errorhandler)
+const errorlogger = require('./middleware/errorloggerMiddleware')
+const errorhandler = require('./middleware/errorhandlerMiddleware')
+app.use(errorlogger, errorhandler)
 
 const PORT = process.env.PORT || 3000;
 
