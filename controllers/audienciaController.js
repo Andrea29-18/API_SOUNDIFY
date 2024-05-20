@@ -1,59 +1,14 @@
 const User = require('../models/Audiencia');
+const bcrypt = require('bcrypt');
+
 
 let self = {}
 
-self.login = async (req, res) => {
-    const { nombreUsuario, password } = req.body;
-    try {
-        const user = await User.findOne({ nombreDeUsuario: nombreUsuario });
-
-        if (!user) {
-            return res.status(404).json({
-                status: 'error',
-                message: 'Usuario no encontrado'
-            });
-        }
-
-        // Verificar la contraseña
-        const isMatch = await bcrypt.compare(password, user.password);
-
-        if (!isMatch) {
-            return res.status(401).json({
-                status: 'error',
-                message: 'Contraseña incorrecta'
-            });
-        }
-
-        res.status(200).json({
-            status: 'success',
-            //BORRAR ESTA LINEA
-            message: 'Inicio de sesión exitoso',
-            data: {
-                user
-            }
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            status: 'error',
-            message: 'Error interno del servidor'
-        });
-    }
-};
-
-
 self.create = async (req, res) => {
-    const body = req.body;
-
+    const { Correo, NombreUsuario, Password, NumeroTelefonico } = req.body;
     try {
-        if (!body.correo || !body.nombreDeUsuario || !body.password || !body.numeroTelefonico) {
-            return res.status(400).json({
-                status: 'error',
-                message: 'Todos los campos son obligatorios'
-            });
-        }
-
-        const existingUser = await User.findOne({ correo: body.correo });
+        // Verificar si el usuario ya existe
+        const existingUser = await User.findOne({ Correo });
         if (existingUser) {
             return res.status(400).json({
                 status: 'error',
@@ -61,8 +16,16 @@ self.create = async (req, res) => {
             });
         }
 
-        // Crear un nuevo usuario
-        const newUser = await User.create(body);
+        // Generar el hash de la contraseña
+        const hashedPassword = await bcrypt.hash(Password, 10); // 10 es el costo del hashing
+
+        // Crear un nuevo usuario con la contraseña hasheada
+        const newUser = await User.create({
+            Correo,
+            NombreUsuario,
+            Password: hashedPassword,
+            NumeroTelefonico
+        });
 
         res.status(201).json({
             status: 'success',
@@ -79,9 +42,44 @@ self.create = async (req, res) => {
     }
 }
 
+self.login = async (req, res) => {
+    const { NombreUsuario, Password } = req.body;
+    try {
+        // Buscar al usuario por nombre de usuario
+        const user = await User.findOne({ NombreUsuario });
+
+        if (!user) {
+            return res.status(404).json({
+                status: 'error',
+                message: 'Usuario no encontrado'
+            });
+        }
+
+        // Comparar la contraseña ingresada con la contraseña hasheada en la base de datos
+        const isMatch = await bcrypt.compare(Password, user.Password);
+
+        if (!isMatch) {
+            return res.status(401).json({
+                status: 'error',
+                message: 'Contraseña incorrecta'
+            });
+        }
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Inicio de sesión exitoso'
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: 'error',
+            message: 'Error interno del servidor'
+        });
+    }
+}
 
 self.delete = async (req, res) => {
-    const { correo, nombreUsuario } = req.params;
+    const { Correo, NombreUsuario } = req.params;
 
     try {
         if (!correo && !nombreUsuario) {
@@ -125,7 +123,7 @@ self.delete = async (req, res) => {
 
 
 self.update = async (req, res) => {
-    const { correo, nombreUsuario } = req.params;
+    const { Correo, NombreUsuario } = req.params;
     const newData = req.body;
 
     try {

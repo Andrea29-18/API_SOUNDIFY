@@ -14,6 +14,7 @@ const audienciaSchema = new Schema({
     Correo: { 
         type: String,
         maxlength: 320, 
+        match: [/.+\@.+\..+/, 'Por favor ingrese un correo electrónico válido'],
         required: true 
     },
     NumeroTelefonico: { 
@@ -21,10 +22,13 @@ const audienciaSchema = new Schema({
         maxlength: 10,
         required: true 
     },
-    Canciones: [{ 
-        type: Schema.Types.ObjectId, 
-        ref: 'Cancion' 
-    }] // Relación con Cancion
+    Canciones: { 
+        type: [{ 
+            type: Schema.Types.ObjectId, 
+            ref: 'Cancion' 
+        }],
+        default: [] // Inicializa con un arreglo vacío
+    }
 });
 
 module.exports = mongoose.model('Audiencia', audienciaSchema);

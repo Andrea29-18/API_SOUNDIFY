@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const Audiencia = require('../models/Audiencia'); // Asegúrate de que la ruta sea correcta
+const bcrypt = require('bcrypt');
+const Audiencia = require('../models/Audiencia');
 
 async function seedData() {
     try {
-
         // Eliminar todos los documentos existentes
         await Audiencia.deleteMany({});
 
@@ -25,7 +25,16 @@ async function seedData() {
             // Agrega tantos objetos como quieras
         ];
 
-        await Audiencia.insertMany(seedData);
+        // Encriptar las contraseñas antes de insertar los datos en la base de datos
+        const seededDataWithHashedPasswords = await Promise.all(seedData.map(async (user) => {
+            const hashedPassword = await bcrypt.hash(user.Password, 10); // 10 es el costo del hashing
+            return {
+                ...user,
+                Password: hashedPassword
+            };
+        }));
+
+        await Audiencia.insertMany(seededDataWithHashedPasswords);
 
         console.log('Siembra de datos completada');
         mongoose.connection.close();
