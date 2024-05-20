@@ -82,7 +82,7 @@ self.delete = async (req, res) => {
     const { Correo, NombreUsuario } = req.params;
 
     try {
-        if (!correo && !nombreUsuario) {
+        if (!Correo && !NombreUsuario) {
             return res.status(400).json({
                 status: 'error',
                 message: 'Se requiere proporcionar un correo o nombre de usuario para eliminar al usuario'
@@ -90,10 +90,10 @@ self.delete = async (req, res) => {
         }
 
         let filter = {};
-        if (correo) {
-            filter.correo = correo;
-        } else if (nombreUsuario) {
-            filter.nombreUsuario = nombreUsuario;
+        if (Correo) {
+            filter.Correo = Correo;
+        } else if (NombreUsuario) {
+            filter.NombreUsuario = NombreUsuario;
         }
 
         const deletedUser = await User.findOneAndDelete(filter);
@@ -127,7 +127,7 @@ self.update = async (req, res) => {
     const newData = req.body;
 
     try {
-        if (!correo && !nombreUsuario) {
+        if (!Correo && !NombreUsuario) {
             return res.status(400).json({
                 status: 'error',
                 message: 'Se requiere proporcionar un correo o nombre de usuario para actualizar al usuario'
@@ -135,10 +135,10 @@ self.update = async (req, res) => {
         }
 
         let filter = {};
-        if (correo) {
+        if (Correo) {
             filter.correo = correo;
-        } else if (nombreUsuario) {
-            filter.nombreUsuario = nombreUsuario;
+        } else if (NombreUsuario) {
+            filter.NombreUsuario = NombreUsuario;
         }
 
         const updatedUser = await User.findOneAndUpdate(filter, newData, { new: true });
