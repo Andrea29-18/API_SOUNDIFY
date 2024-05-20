@@ -6,7 +6,8 @@ const generoMusicalSchema = new Schema({
     type: String, 
     maxlength: 72,
     required: true, 
-    unique: true }
+    unique: true 
+  }
 });
 
 module.exports = mongoose.model('GeneroMusical', generoMusicalSchema);

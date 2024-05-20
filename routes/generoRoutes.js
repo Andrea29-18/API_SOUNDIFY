@@ -1,19 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const generoController = require('../controllers/generoController');
 
+// GET: /api/v2/genero
+router.get('/', generoController.getAllGeneros);
 
-const {
-    getAllGeneros,
-    getGeneroById,
-    saveGenero,
-    deleteGenero,
-    updateGenero
-} = require('../controllers/generoController');
-
-router.get('/', getAllGeneros);
-router.get('/:id', getGeneroById);
-router.post('/', saveGenero);
-router.delete('/:id', deleteGenero);
-router.patch('/:id', updateGenero);
+// GET: /api/v2/genero/:nombreGenero
+router.get('/:nombreGenero', generoController.getGeneroByNombre);
 
 module.exports = router;

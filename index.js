@@ -15,6 +15,7 @@ const audienciaRouter = require('./routes/audienciaRoutes');
 //Siembra de datos
 //const seedAudiencia = require('./seed/seedAudiencia');
 //const seedArtista = require('./seed/seedArtista');
+const seedGenero = require('./seed/seedGenero');
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 connectDB();
 //seedAudiencia();
 //seedArtista();
+seedGenero();
 
 // Routes
 app.use('/api/v2/album', albumRouter);
