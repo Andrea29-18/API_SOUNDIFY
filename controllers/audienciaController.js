@@ -1,37 +1,11 @@
-const User = require('../models/Usuario');
+const User = require('../models/Audiencia');
 
-const getAllUsers = async (req, res) => {
+let self = {}
+
+self.login = async (req, res) => {
+    const { nombreUsuario, password } = req.body;
     try {
-        const users = await User.find();
-
-        res.status(200).json({
-            status: 'success',
-            data: {
-                users
-            }
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            status: 'error',
-            message: 'Error interno del servidor'
-        });
-    }
-}
-
-
-const getUserByIdOrCorreo = async (req, res) => {
-    const { id, correo } = req.params;
-
-    try {
-        let user;
-        if (id) {
-            // Obtener al usuario por su ID
-            user = await User.findById(id);
-        } else {
-            // Obtener al usuario por su correo
-            user = await User.findOne({ correo });
-        }
+        const user = await User.findOne({ nombreDeUsuario: nombreUsuario });
 
         if (!user) {
             return res.status(404).json({
@@ -40,8 +14,20 @@ const getUserByIdOrCorreo = async (req, res) => {
             });
         }
 
+        // Verificar la contraseña
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            return res.status(401).json({
+                status: 'error',
+                message: 'Contraseña incorrecta'
+            });
+        }
+
         res.status(200).json({
             status: 'success',
+            //BORRAR ESTA LINEA
+            message: 'Inicio de sesión exitoso',
             data: {
                 user
             }
@@ -53,14 +39,13 @@ const getUserByIdOrCorreo = async (req, res) => {
             message: 'Error interno del servidor'
         });
     }
-}
+};
 
 
-const saveUser = async (req, res) => {
+self.create = async (req, res) => {
     const body = req.body;
 
     try {
-        // Validar que se proporcionen todos los campos necesarios
         if (!body.correo || !body.nombreDeUsuario || !body.password || !body.numeroTelefonico) {
             return res.status(400).json({
                 status: 'error',
@@ -68,7 +53,6 @@ const saveUser = async (req, res) => {
             });
         }
 
-        // Verificar si el usuario ya existe en la base de datos
         const existingUser = await User.findOne({ correo: body.correo });
         if (existingUser) {
             return res.status(400).json({
@@ -80,7 +64,6 @@ const saveUser = async (req, res) => {
         // Crear un nuevo usuario
         const newUser = await User.create(body);
 
-        // Enviar respuesta con el usuario creado
         res.status(201).json({
             status: 'success',
             data: {
@@ -89,7 +72,6 @@ const saveUser = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        // Manejar otros errores de manera adecuada
         res.status(500).json({
             status: 'error',
             message: 'Error interno del servidor'
@@ -98,26 +80,25 @@ const saveUser = async (req, res) => {
 }
 
 
-const deleteUser = async (req, res) => {
-    const { id, correo } = req.params;
+self.delete = async (req, res) => {
+    const { correo, nombreUsuario } = req.params;
 
     try {
-        // Verificar si se proporciona un ID o un correo para eliminar al usuario
-        if (!id && !correo) {
+        if (!correo && !nombreUsuario) {
             return res.status(400).json({
                 status: 'error',
-                message: 'Se requiere proporcionar un ID o un correo para eliminar al usuario'
+                message: 'Se requiere proporcionar un correo o nombre de usuario para eliminar al usuario'
             });
         }
 
-        let deletedUser;
-        if (id) {
-            // Eliminar al usuario por su ID
-            deletedUser = await User.findByIdAndDelete(id);
-        } else {
-            // Eliminar al usuario por su correo
-            deletedUser = await User.findOneAndDelete({ correo });
+        let filter = {};
+        if (correo) {
+            filter.correo = correo;
+        } else if (nombreUsuario) {
+            filter.nombreUsuario = nombreUsuario;
         }
+
+        const deletedUser = await User.findOneAndDelete(filter);
 
         if (!deletedUser) {
             return res.status(404).json({
@@ -143,21 +124,26 @@ const deleteUser = async (req, res) => {
 }
 
 
-const updateUser = async (req, res) => {
-    const { id } = req.params;
+self.update = async (req, res) => {
+    const { correo, nombreUsuario } = req.params;
     const newData = req.body;
 
     try {
-        // Verificar si se proporciona un ID para actualizar al usuario
-        if (!id) {
+        if (!correo && !nombreUsuario) {
             return res.status(400).json({
                 status: 'error',
-                message: 'Se requiere proporcionar un ID para actualizar al usuario'
+                message: 'Se requiere proporcionar un correo o nombre de usuario para actualizar al usuario'
             });
         }
 
-        // Actualizar los datos del usuario por su ID
-        const updatedUser = await User.findByIdAndUpdate(id, newData, { new: true });
+        let filter = {};
+        if (correo) {
+            filter.correo = correo;
+        } else if (nombreUsuario) {
+            filter.nombreUsuario = nombreUsuario;
+        }
+
+        const updatedUser = await User.findOneAndUpdate(filter, newData, { new: true });
 
         if (!updatedUser) {
             return res.status(404).json({
@@ -169,9 +155,7 @@ const updateUser = async (req, res) => {
         res.status(200).json({
             status: 'success',
             message: 'Usuario actualizado correctamente',
-            data: {
-                user: updatedUser
-            }
+            data: updatedUser
         });
     } catch (error) {
         console.error(error);
@@ -183,10 +167,4 @@ const updateUser = async (req, res) => {
 }
 
 
-module.exports = {
-    deleteUser,
-    getAllUsers,
-    getUserByIdOrCorreo,
-    updateUser,
-    saveUser,
-}
+module.exports = self;

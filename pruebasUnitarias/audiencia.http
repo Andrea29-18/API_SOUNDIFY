@@ -1,0 +1,36 @@
+### Login de usuario (POST)
+
+POST http://localhost:3000/api/v2/audiencia/login
+Content-Type: application/json
+
+{
+    "nombreUsuario": "usuario1",
+    "password": "password1"
+}
+
+### Crear un nuevo usuario (POST)
+
+POST http://localhost:3000/api/v2/audiencia
+Content-Type: application/json
+
+{
+    "correo": "correo@prueba.com",
+    "nombreDeUsuario": "nombreUsuarioPrueba",
+    "password": "passwordPrueba",
+    "numeroTelefonico": "1234567890"
+}
+
+### Actualizar información de usuario existente (PUT)
+
+PUT http://localhost:3000/api/v2/audiencia/nombreUsuarioPrueba
+Content-Type: application/json
+
+{
+    "correo": "correo@prueba.com",
+    "password": "nuevaPassword",
+    "numeroTelefonico": "9876543210"
+}
+
+### Eliminar usuario (DELETE)
+
+DELETE http://localhost:3000/api/v2/audiencia/nombreUsuarioPrueba
