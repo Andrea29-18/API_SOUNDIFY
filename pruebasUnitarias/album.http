@@ -18,4 +18,4 @@ GET http://localhost:3000/api/v2/album/Álbum 2
 
 ###
 
-DELETE http://localhost:3000/api/v2/albumes/NombreDelAlbum
+DELETE http://localhost:3000/api/v2/album/Álbum 2

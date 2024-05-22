@@ -18,7 +18,7 @@ POST http://localhost:3000/api/v2/artista
 Content-Type: application/json
 
 {
-    "Correo": "correo@ejemplo.com",
+    "Correo": "correo5@example.com",
     "DescripcionGeneral": "Descripción del artista"
 }
 

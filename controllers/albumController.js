@@ -50,16 +50,23 @@ self.getAlbumByName = async (req, res) => {
 self.create = async (req, res) => {
     const { NombreAlbum, Descripcion, ArtistaNombre, GeneroMusical } = req.body;
     try {
-        // Buscar el artista por nombre
-        const artista = await Artista.findOne({ NombreArtista: ArtistaNombre });
+
+        // Buscar al artista por su nombre
+        const artista = await Artista.findOne({ ArtistaNombre });
         if (!artista) {
             return res.status(404).json({
                 status: 'error',
                 message: 'Artista no encontrado'
             });
         }
-        // Crear el álbum relacionado con el artista
-        const newAlbum = await Album.create({ NombreAlbum, Descripcion, Artista: artista._id, GeneroMusical });
+
+        // Crear el álbum asociado al artista encontrado
+        const newAlbum = await Album.create({ 
+            NombreAlbum, 
+            Descripcion, 
+            Artista: artista._id, 
+            GeneroMusical 
+        });
         res.status(201).json({
             status: 'success',
             data: {
