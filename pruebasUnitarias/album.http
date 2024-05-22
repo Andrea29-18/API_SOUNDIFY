@@ -1,0 +1,21 @@
+POST http://localhost:3000/api/v2/album
+Content-Type: application/json
+
+{
+    "NombreAlbum": "Nombre del Álbum",
+    "Descripcion": "Descripción del Álbum",
+    "Artista": "usuario1", 
+    "GeneroMusical": "664bca7d0efc224da643fcbf"
+}
+
+###
+
+GET http://localhost:3000/api/v2/album
+
+###
+
+GET http://localhost:3000/api/v2/album/Álbum 2
+
+###
+
+DELETE http://localhost:3000/api/v2/albumes/NombreDelAlbum

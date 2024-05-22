@@ -16,6 +16,7 @@ const audienciaRouter = require('./routes/audienciaRoutes');
 //const seedAudiencia = require('./seed/seedAudiencia');
 //const seedArtista = require('./seed/seedArtista');
 //const seedGenero = require('./seed/seedGenero');
+//const seedAlbum = require('./seed/seedAlbum');
 
 const app = express();
 
@@ -32,6 +33,7 @@ connectDB();
 //seedAudiencia();
 //seedArtista();
 //seedGenero();
+//seedAlbum(); //POSIBLE ERROR, EN EL SEED TIENES QUE PONER EL ID DEL GENEROMUSICAL
 
 // Routes
 app.use('/api/v2/album', albumRouter);
