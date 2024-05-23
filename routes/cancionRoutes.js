@@ -1,19 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const cancionController = require('../controllers/cancionController');
 
-
-const {
-    getAllCanciones,
-    getCancionById,
-    saveCancion,
-    deleteCancion,
-    updateCancion
-} = require('../controllers/cancionController');
-
-router.get('/', getAllCanciones);
-router.get('/:id', getCancionById);
-router.post('/', saveCancion);
-router.delete('/:id', deleteCancion);
-router.patch('/:id', updateCancion);
+router.post('/canciones', cancionController.createCancion);
+router.get('/canciones/:id/audio', cancionController.getCancionAudio);
 
 module.exports = router;
