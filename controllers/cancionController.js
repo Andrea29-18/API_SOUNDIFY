@@ -11,19 +11,36 @@ exports.createCancion = async (req, res) => {
     // Subir el archivo de audio a través de gRPC
     const fileName = path.basename(audioPath);
     const stream = fs.createReadStream(audioPath);
-    const call = grpcClient.uploadAudio((error, response) => {
+
+    const nuevaCancion = await Cancion.create({
+      NombreCancion,
+      Idioma,
+      Artista,
+      Album
+    });
+
+
+    const call = await grpcClient.uploadAudio((error, response) => {
       if (error) {
-        return res.status(500).send('Error subiendo el archivo de audio');
+        return res.status(400).json({
+          status: 'error',
+          message: 'Erro al subir el archivo'
+        });
       }
-      
-      // Crear la canción en la base de datos
-      const nuevaCancion = new Cancion({ NombreCancion, Idioma, Artista, Album });
-      nuevaCancion.save((err, cancionGuardada) => {
-        if (err) {
-          return res.status(500).send('Error guardando la canción');
-        }
-        res.status(201).json(cancionGuardada);
-      });
+
+      nuevaCancion.save()
+        .then(() => {
+          return res.status(400).json({
+            status: 'error',
+            message: 'El usuario ya existe'
+          });
+        })
+        .catch((error) => {
+          return res.status(400).json({
+            status: 'error',
+            message: 'El usuario ya existe'
+          });
+        });
     });
 
     // Enviar el archivo por chunks
@@ -36,7 +53,10 @@ exports.createCancion = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(500).send('Error interno del servidor');
+    return res.status(500).json({
+      status: 'error',
+      message: 'El en el servidor'
+    });
   }
 };
 
