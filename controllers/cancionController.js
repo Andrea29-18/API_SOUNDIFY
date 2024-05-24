@@ -1,10 +1,14 @@
 const Cancion = require('../models/Cancion');
+const ArtistaM = require('../models/Artista');
+const AlbumM = require('../models/Album');
 const grpcClient = require('../grpcClient');
 const fs = require('fs');
 const path = require('path');
 
+let self = {}
+
 // Crear una nueva canción y subir el archivo de audio
-exports.createCancion = async (req, res) => {
+self.create = async (req, res) => {
   try {
     const { NombreCancion, Idioma, Artista, Album, audioPath } = req.body;
 
@@ -16,17 +20,28 @@ exports.createCancion = async (req, res) => {
       });
     }
 
-    // Subir el archivo de audio a través de gRPC
-    const fileName = path.basename(audioPath);
-    const stream = fs.createReadStream(audioPath);
+    const artista = await ArtistaM.findOne({ NombreArtista: Artista });
+    const album = await AlbumM.findOne({ NombreAlbum: Album });
+
+    if (!artista || !album) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Artista o Album no encontrado.'
+      });
+    }
+
 
     // Crear el registro de la nueva canción en la base de datos
     const nuevaCancion = await Cancion.create({
       NombreCancion,
       Idioma,
-      Artista,
-      Album
+      Artista: artista._id,
+      Album: album._id
     });
+
+    // Construir el nombre del archivo en el formato deseado
+    const formattedFileName = `${Artista}${Album}${NombreCancion}${path.extname(audioPath)}`;
+    const stream = fs.createReadStream(audioPath);
 
     // Llamada a gRPC para subir el archivo de audio
     const call = grpcClient.uploadAudio((error, response) => {
@@ -57,7 +72,10 @@ exports.createCancion = async (req, res) => {
 
     // Enviar el archivo por chunks
     stream.on('data', (chunk) => {
-      call.write({ data: chunk, nombre: fileName });
+      call.write({
+        data: chunk,
+        nombre: formattedFileName
+      });
     });
 
     stream.on('end', () => {
@@ -71,43 +89,61 @@ exports.createCancion = async (req, res) => {
       message: 'Error en el servidor.'
     });
   }
-};
+}
 
 // Descargar el archivo de audio para una canción específica
-exports.getCancionAudio = async (req, res) => {
+self.getCancion = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Encontrar la canción en la base de datos
+    // Buscar la canción en la base de datos por su ID
     const cancion = await Cancion.findById(id);
     if (!cancion) {
-      return res.status(404).send('Canción no encontrada');
+      return res.status(404).json({
+        status: 'error',
+        message: 'Canción no encontrada.'
+      });
     }
 
-    // Descargar el archivo de audio a través de gRPC
-    const call = grpcClient.downloadAudio({ nombre: cancion.NombreCancion });
-    const filePath = path.join(__dirname, 'temp', `${cancion.NombreCancion}.mp3`);
-    const writeStream = fs.createWriteStream(filePath);
+    // Definir la ruta del archivo de audio
+    const audioPath = path.join(__dirname, 'audio', `${cancion.NombreCancion}.mp3`);
 
+    // Verificar si el archivo de audio existe
+    if (!fs.existsSync(audioPath)) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Archivo de audio no encontrado.'
+      });
+    }
+
+    // Crear una llamada a gRPC para descargar el archivo de audio
+    const call = grpcClient.downloadAudio({ nombre: `${cancion.NombreCancion}.mp3` });
+
+    // Crear un stream para la respuesta
+    res.setHeader('Content-Type', 'audio/mpeg');
     call.on('data', (chunk) => {
-      writeStream.write(chunk.data);
+      res.write(chunk.data);
     });
 
     call.on('end', () => {
-      writeStream.end();
-      res.download(filePath, (err) => {
-        if (err) {
-          return res.status(500).send('Error descargando el archivo de audio');
-        }
-        fs.unlinkSync(filePath);  // Elimina el archivo temporal
-      });
+      res.end();
     });
 
     call.on('error', (error) => {
-      res.status(500).send('Error descargando el archivo de audio');
+      console.error('Error descargando el archivo:', error);
+      res.status(500).json({
+        status: 'error',
+        message: 'Error al descargar el archivo de audio.'
+      });
     });
 
   } catch (error) {
-    res.status(500).send('Error interno del servidor');
+    console.error('Error en el servidor:', error);
+    return res.status(500).json({
+      status: 'error',
+      message: 'Error en el servidor.'
+    });
   }
-};
+}
+
+module.exports = self;
