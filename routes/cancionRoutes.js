@@ -6,6 +6,6 @@ const cancionController = require('../controllers/cancionController');
 router.post('/', cancionController.create);
 
 // Ruta para obtener el audio de una canción por ID
-router.get('/:id', cancionController.getCancion);
+router.post('/pathAudio', cancionController.getCancion);
 
 module.exports = router;

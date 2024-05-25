@@ -91,50 +91,50 @@ self.create = async (req, res) => {
   }
 }
 
-// Descargar el archivo de audio para una canción específica
+// Verificar si una canción existe y devolver la URL del audio
 self.getCancion = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { NombreCancion, Artista, Album } = req.body;
 
-    // Buscar la canción en la base de datos por su ID
-    const cancion = await Cancion.findById(id);
+    // Verificar que todos los campos requeridos están presentes
+    if (!NombreCancion || !Artista || !Album) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Todos los campos son obligatorios: NombreCancion, Artista y Album.'
+      });
+    }
+
+    // Buscar la canción en la base de datos
+    const artista = await ArtistaM.findOne({ NombreArtista: Artista });
+    const album = await AlbumM.findOne({ NombreAlbum: Album });
+
+    if (!artista || !album) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Artista o Album no encontrado.'
+      });
+    }
+
+    const cancion = await Cancion.findOne({
+      NombreCancion,
+      Artista: artista._id,
+      Album: album._id
+    });
+
     if (!cancion) {
       return res.status(404).json({
         status: 'error',
-        message: 'Canción no encontrada.'
+        message: 'No se encontró una canción con los detalles proporcionados.'
       });
     }
 
-    // Definir la ruta del archivo de audio
-    const audioPath = path.join(__dirname, 'audio', `${cancion.NombreCancion}.mp3`);
+    // Construir la URL con la que se guarda en gRPC
+    const audioUrl = `${Artista}${Album}${NombreCancion}${path.extname(cancion.audioPath || '')}`;
 
-    // Verificar si el archivo de audio existe
-    if (!fs.existsSync(audioPath)) {
-      return res.status(404).json({
-        status: 'error',
-        message: 'Archivo de audio no encontrado.'
-      });
-    }
-
-    // Crear una llamada a gRPC para descargar el archivo de audio
-    const call = grpcClient.downloadAudio({ nombre: `${cancion.NombreCancion}.mp3` });
-
-    // Crear un stream para la respuesta
-    res.setHeader('Content-Type', 'audio/mpeg');
-    call.on('data', (chunk) => {
-      res.write(chunk.data);
-    });
-
-    call.on('end', () => {
-      res.end();
-    });
-
-    call.on('error', (error) => {
-      console.error('Error descargando el archivo:', error);
-      res.status(500).json({
-        status: 'error',
-        message: 'Error al descargar el archivo de audio.'
-      });
+    return res.status(200).json({
+      status: 'success',
+      message: 'Canción encontrada.',
+      data: audioUrl
     });
 
   } catch (error) {
