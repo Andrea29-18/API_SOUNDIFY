@@ -61,7 +61,8 @@ self.login = async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({
                 status: 'error',
-                message: 'Contraseña incorrecta'
+                message: 'Contraseña incorrecta',
+                user: user
             });
         }
 
