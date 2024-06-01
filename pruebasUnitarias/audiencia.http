@@ -13,7 +13,7 @@ POST http://localhost:3000/api/v2/audiencia
 Content-Type: application/json
 
 {
-    "Correo": "correo@ejemplo.com",
+    "Correo": "correo@ejemplo.com", 
     "NombreUsuario": "nombreDeUsuario",
     "Password": "contraseña",
     "NumeroTelefonico": "1234567890",
