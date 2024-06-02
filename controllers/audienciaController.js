@@ -1,13 +1,14 @@
 const User = require('../models/Audiencia');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const jwtSecret = '5f9b327ba659bad1da6609494f4a0157ae3e21e2f4ccd44cfcb42e8dbe3c226531738d'
 
+let self = {};
 
-let self = {}
 
 self.create = async (req, res) => {
     const { Correo, NombreUsuario, Password, NumeroTelefonico } = req.body;
     try {
-        // Verificar si el usuario ya existe
         const existingUser = await User.findOne({ Correo });
         if (existingUser) {
             return res.status(400).json({
@@ -16,10 +17,8 @@ self.create = async (req, res) => {
             });
         }
 
-        // Generar el hash de la contraseña
-        const hashedPassword = await bcrypt.hash(Password, 10); // 10 es el costo del hashing
+        const hashedPassword = await bcrypt.hash(Password, 10);
 
-        // Crear un nuevo usuario con la contraseña hasheada
         const newUser = await User.create({
             Correo,
             NombreUsuario,
@@ -45,7 +44,6 @@ self.create = async (req, res) => {
 self.login = async (req, res) => {
     const { NombreUsuario, Password } = req.body;
     try {
-        // Buscar al usuario por nombre de usuario
         const user = await User.findOne({ NombreUsuario });
 
         if (!user) {
@@ -55,20 +53,25 @@ self.login = async (req, res) => {
             });
         }
 
-        // Comparar la contraseña ingresada con la contraseña hasheada en la base de datos
         const isMatch = await bcrypt.compare(Password, user.Password);
 
         if (!isMatch) {
             return res.status(401).json({
                 status: 'error',
-                message: 'Contraseña incorrecta',
-                user: user
+                message: 'Contraseña incorrecta'
             });
         }
 
+        const token = jwt.sign({
+            userId: user._id,
+            NombreUsuario: user.NombreUsuario,
+            Correo: user.Correo
+        }, jwtSecret, { expiresIn: '30m' });
+
         res.status(200).json({
             status: 'success',
-            message: 'Inicio de sesión exitoso'
+            message: 'Inicio de sesión exitoso',
+            token: token
         });
     } catch (error) {
         console.error(error);
@@ -79,25 +82,53 @@ self.login = async (req, res) => {
     }
 }
 
-self.delete = async (req, res) => {
-    const { Correo, NombreUsuario } = req.params;
+self.update = async (req, res) => {
+    const { nombreUsuario } = req.params;
+    const newData = req.body;
 
     try {
-        if (!Correo && !NombreUsuario) {
+        if (!nombreUsuario) {
+            console.log('Nombre de usuario no proporcionado');
             return res.status(400).json({
                 status: 'error',
-                message: 'Se requiere proporcionar un correo o nombre de usuario para eliminar al usuario'
+                message: 'Se requiere proporcionar un nombre de usuario para actualizar al usuario'
             });
         }
 
-        let filter = {};
-        if (Correo) {
-            filter.Correo = Correo;
-        } else if (NombreUsuario) {
-            filter.NombreUsuario = NombreUsuario;
+        const filter = { NombreUsuario: nombreUsuario };
+        console.log('Filtro de búsqueda:', filter);
+
+        const updatedUser = await User.findOneAndUpdate(filter, newData, { new: true });
+
+        if (!updatedUser) {
+            console.log('Usuario no encontrado:', filter);
+            return res.status(404).json({
+                status: 'error',
+                message: 'Usuario no encontrado'
+            });
         }
 
-        const deletedUser = await User.findOneAndDelete(filter);
+        res.status(200).json({
+            status: 'success',
+            message: 'Usuario actualizado correctamente',
+            data: updatedUser
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: 'error',
+            message: 'Error interno del servidor'
+        });
+    }
+}
+
+
+
+self.delete = async (req, res) => {
+    const { NombreUsuario } = req.params;
+
+    try {
+        const deletedUser = await User.findOneAndDelete({ NombreUsuario });
 
         if (!deletedUser) {
             return res.status(404).json({
@@ -121,49 +152,5 @@ self.delete = async (req, res) => {
         });
     }
 }
-
-
-self.update = async (req, res) => {
-    const { Correo, NombreUsuario } = req.params;
-    const newData = req.body;
-
-    try {
-        if (!Correo && !NombreUsuario) {
-            return res.status(400).json({
-                status: 'error',
-                message: 'Se requiere proporcionar un correo o nombre de usuario para actualizar al usuario'
-            });
-        }
-
-        let filter = {};
-        if (Correo) {
-            filter.correo = correo;
-        } else if (NombreUsuario) {
-            filter.NombreUsuario = NombreUsuario;
-        }
-
-        const updatedUser = await User.findOneAndUpdate(filter, newData, { new: true });
-
-        if (!updatedUser) {
-            return res.status(404).json({
-                status: 'error',
-                message: 'Usuario no encontrado'
-            });
-        }
-
-        res.status(200).json({
-            status: 'success',
-            message: 'Usuario actualizado correctamente',
-            data: updatedUser
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            status: 'error',
-            message: 'Error interno del servidor'
-        });
-    }
-}
-
 
 module.exports = self;

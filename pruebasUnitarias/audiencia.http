@@ -2,13 +2,11 @@ POST http://localhost:3000/api/v2/audiencia/login
 Content-Type: application/json
 
 {
-    "NombreUsuario": "usuario1",
-    "Password": "password1"
+    "NombreUsuario": "nombreDeUsuario",
+    "Password": "contraseña"
 }
 
-
-### Crear un nuevo usuario (POST)
-
+###
 POST http://localhost:3000/api/v2/audiencia
 Content-Type: application/json
 
@@ -20,17 +18,21 @@ Content-Type: application/json
     "Canciones": []
 }
 
-### Actualizar información de usuario existente (PUT)
+### 
 
-PUT http://localhost:3000/api/v2/audiencia/nombreUsuarioPrueba
+PUT http://localhost:3000/api/v2/audiencia/nombreDeUsuario
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjViZmYwODhkYzQ1YmM0NGExY2UzYjMiLCJOb21icmVVc3VhcmlvIjoibm9tYnJlRGVVc3VhcmlvIiwiQ29ycmVvIjoiY29ycmVvQGVqZW1wbG8uY29tIiwiaWF0IjoxNzE3MzA1NzI4LCJleHAiOjE3MTczMDc1Mjh9.ntCvgmDFSr9fLYdDxvrhIiwcngz9RtuRtguLQ3a5lXM
 
 {
     "Correo": "correo@prueba.com",
-    "Password": "nuevaPassword",
+    "Password": "nuevaPassword2",
     "NumeroTelefonico": "9876543210"
 }
 
-### Eliminar usuario (DELETE)
+
+
+### 
 
 DELETE http://localhost:3000/api/v2/audiencia/nombreUsuarioPrueba
+Authorization: Bearer <TU_TOKEN_JWT>

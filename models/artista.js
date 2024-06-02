@@ -1,34 +1,35 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 
 const artistaSchema = new Schema({
-  NombreArtista: {
-    type: String,
-    required: true,
-    maxlength: 80
+  NombreArtista: { 
+    type: String, 
+    required: true, 
+    maxlength: 80 
   },
-  Password: {
-    type: String,
-    required: true
+  Password: { 
+    type: String, 
+    required: true 
   },
-  DescripcionGeneral: {
-    type: String,
-    maxlength: 250
+  DescripcionGeneral: { 
+    type: String, 
+    maxlength: 250 
   },
-  NumeroTelefonico: {
-     type: String,
-     maxlength: 10
+  NumeroTelefonico: { 
+    type: String, 
+    maxlength: 10 
   },
   Correo: { 
-    type: String,
+    type: String, 
     maxlength: 320, 
-    required: true
+    required: true 
   },
   Albumes: [{ 
     type: Schema.Types.ObjectId, 
     ref: 'Album' 
-  }] 
-});
+  }]
+})
 
 const Artista = mongoose.model('Artista', artistaSchema);
 
