@@ -1,26 +1,31 @@
-/*const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+//NUBE
+const mongoose = require('mongoose')
+require('dotenv').config()
 
-dotenv.config();
+const DB_URI = 'mongodb+srv://USUARIOTUYO:TUCONTRA@cluster0.wrh2jsu.mongodb.net/Soundify?retryWrites=true&w=majority&appName=Cluster0'
 
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.DB_CONNECTION, {
+module.exports = () => {
+  const connect = () => {
+    mongoose.connect(DB_URI, {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false
+      useUnifiedTopology: true
+    })
+    .then(() => {
+      console.log('Conexión exitosa a la base de datos');
+    })
+    .catch((error) => {
+      console.error('Error de conexión a la base de datos:', error);
     });
-    console.log('Connected to MongoDB');
-  } catch (error) {
-    console.error('Failed to connect to MongoDB:', error);
-    process.exit(1); 
-  }
+  };
+
+  connect();
+
+  mongoose.connection.on('error', console.error.bind(console, 'Error de conexión MongoDB:'));
+  mongoose.connection.on('disconnected', connect);
 };
 
-module.exports = connectDB;*/
 
-//LOCAL
+/*LOCAL
 const mongoose = require('mongoose');
 const DB_URI = 'mongodb://localhost:27017/Soundify';
 
@@ -44,3 +49,4 @@ module.exports = () => {
   mongoose.connection.on('error', console.error.bind(console, 'Error de conexión MongoDB:'));
   mongoose.connection.on('disconnected', connect);
 };
+*/

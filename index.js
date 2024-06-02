@@ -12,11 +12,11 @@ const cancionRouter = require('./routes/cancionRoutes');
 const generoRouter = require('./routes/generoRoutes');
 const audienciaRouter = require('./routes/audienciaRoutes');
 
-//Siembra de datos
-//const seedAudiencia = require('./seed/seedAudiencia');
-//const seedArtista = require('./seed/seedArtista');
-//const seedGenero = require('./seed/seedGenero');
-//const seedAlbum = require('./seed/seedAlbum');
+/*Siembra de datos
+const seedAudiencia = require('./seed/seedAudiencia');
+const seedArtista = require('./seed/seedArtista');
+const seedGenero = require('./seed/seedGenero');
+const seedAlbum = require('./seed/seedAlbum');*/
 
 const app = express();
 
