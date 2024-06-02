@@ -545,3 +545,4 @@ database.js
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,node
+config/database.js

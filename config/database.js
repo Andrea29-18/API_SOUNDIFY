@@ -1,8 +1,8 @@
-//NUBE
+/*NUBE
 const mongoose = require('mongoose')
 require('dotenv').config()
 
-const DB_URI = 'mongodb+srv://USUARIOTUYO:TUCONTRA@cluster0.wrh2jsu.mongodb.net/Soundify?retryWrites=true&w=majority&appName=Cluster0'
+const DB_URI = ''
 
 module.exports = () => {
   const connect = () => {
@@ -22,10 +22,10 @@ module.exports = () => {
 
   mongoose.connection.on('error', console.error.bind(console, 'Error de conexión MongoDB:'));
   mongoose.connection.on('disconnected', connect);
-};
+};*/
 
 
-/*LOCAL
+//LOCAL
 const mongoose = require('mongoose');
 const DB_URI = 'mongodb://localhost:27017/Soundify';
 
@@ -49,4 +49,3 @@ module.exports = () => {
   mongoose.connection.on('error', console.error.bind(console, 'Error de conexión MongoDB:'));
   mongoose.connection.on('disconnected', connect);
 };
-*/
