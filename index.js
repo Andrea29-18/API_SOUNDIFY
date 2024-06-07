@@ -28,8 +28,13 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
+try {
+    connectDB();
+} catch (error) {
+    console.error('Error connecting to database:', error);
+    res.status(500).send('Internal Server Error');
+}
 
-connectDB();
 //seedAudiencia();
 //seedArtista();
 //seedGenero();

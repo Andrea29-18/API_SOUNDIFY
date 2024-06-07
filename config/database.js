@@ -1,4 +1,4 @@
-//NUBE
+/*NUBE
 const mongoose = require('mongoose')
 require('dotenv').config()
 
@@ -23,9 +23,9 @@ module.exports = () => {
   mongoose.connection.on('error', console.error.bind(console, 'Error de conexión MongoDB:'));
   mongoose.connection.on('disconnected', connect);
 };
+*/
 
-
-/*LOCAL
+//LOCAL
 const mongoose = require('mongoose');
 const DB_URI = 'mongodb://localhost:27017/Soundify';
 
@@ -49,4 +49,3 @@ module.exports = () => {
   mongoose.connection.on('error', console.error.bind(console, 'Error de conexión MongoDB:'));
   mongoose.connection.on('disconnected', connect);
 };
-*/
