@@ -14,11 +14,11 @@ Content-Type: application/json
 
 ### Crear un nuevo artista (POST)
 
-POST http://localhost:3000/api/v2/artista
+POST http://192.168.56.108:3000/api/v2/artista
 Content-Type: application/json
 
 {
-    "Correo": "correo5@example.com",
+    "Correo": "correo@ejemplo.com",
     "DescripcionGeneral": "Descripción del artista"
 }
 

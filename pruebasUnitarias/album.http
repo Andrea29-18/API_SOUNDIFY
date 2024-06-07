@@ -1,10 +1,10 @@
-POST http://localhost:3000/api/v2/album
+POST http://192.168.56.108:3000/api/v2/album
 Content-Type: application/json
 
 {
     "NombreAlbum": "Nombre del Álbum",
     "Descripcion": "Descripción del Álbum",
-    "Artista": "usuario1", 
+    "Artista": "Ale", 
     "GeneroMusical": "664bca7d0efc224da643fcbf"
 }
 

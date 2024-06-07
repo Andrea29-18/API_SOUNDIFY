@@ -71,7 +71,10 @@ self.login = async (req, res) => {
         res.status(200).json({
             status: 'success',
             message: 'Inicio de sesión exitoso',
-            token: token
+            token: token,
+            data: {
+                user: user
+            }
         });
     } catch (error) {
         console.error(error);
