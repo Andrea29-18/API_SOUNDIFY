@@ -1,4 +1,4 @@
-POST http://192.168.56.108:3000/api/v2/album
+POST http://localhost:3000/api/v2/album
 Content-Type: application/json
 
 {
