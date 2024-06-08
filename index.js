@@ -11,6 +11,8 @@ const artistaRouter = require('./routes/artistaRoutes');
 const cancionRouter = require('./routes/cancionRoutes');
 const generoRouter = require('./routes/generoRoutes');
 const audienciaRouter = require('./routes/audienciaRoutes');
+const bitacoraRouter = require('./routes/bitacoraRoutes');
+
 
 /*Siembra de datos
 const seedAudiencia = require('./seed/seedAudiencia');
@@ -46,6 +48,7 @@ app.use('/api/v2/artista', artistaRouter);
 app.use('/api/v2/cancion', cancionRouter);
 app.use('/api/v2/generos', generoRouter);
 app.use('/api/v2/audiencia', audienciaRouter);
+app.use('/api/v2/bitacora', bitacoraRouter);
 app.get('*', (req,res) => {res.status(404).send() });
 
 
