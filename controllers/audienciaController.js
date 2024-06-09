@@ -1,4 +1,5 @@
 const User = require('../models/Audiencia');
+const Art = require('../models/Artista');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const jwtSecret = '5f9b327ba659bad1da6609494f4a0157ae3e21e2f4ccd44cfcb42e8dbe3c226531738d'
@@ -44,9 +45,17 @@ self.create = async (req, res) => {
 self.login = async (req, res) => {
     const { NombreUsuario, Password } = req.body;
     try {
-        const user = await User.findOne({ NombreUsuario });
+
+        let USERTYPE = 'Artista';
+        let user = await Art.findOne({ NombreUsuario });
+        
+        if (!user) {
+            user = await User.findOne({ NombreUsuario });
+            USERTYPE = 'Audiencia';
+        }
 
         if (!user) {
+            USERTYPE = '';
             return res.status(404).json({
                 status: 'error',
                 message: 'Usuario no encontrado'
@@ -62,10 +71,12 @@ self.login = async (req, res) => {
             });
         }
 
+
         const token = jwt.sign({
             userId: user._id,
             NombreUsuario: user.NombreUsuario,
-            Correo: user.Correo
+            Correo: user.Correo,
+            UserType: USERTYPE
         }, jwtSecret, { expiresIn: '30m' });
 
         res.status(200).json({
@@ -73,7 +84,8 @@ self.login = async (req, res) => {
             message: 'Inicio de sesión exitoso',
             token: token,
             data: {
-                user: user
+                user: user,
+                userType: USERTYPE
             }
         });
     } catch (error) {
@@ -84,6 +96,8 @@ self.login = async (req, res) => {
         });
     }
 }
+
+
 
 self.update = async (req, res) => {
     const { nombreUsuario } = req.params;
@@ -99,7 +113,6 @@ self.update = async (req, res) => {
         }
 
         const filter = { NombreUsuario: nombreUsuario };
-        console.log('Filtro de búsqueda:', filter);
 
         const updatedUser = await User.findOneAndUpdate(filter, newData, { new: true });
 

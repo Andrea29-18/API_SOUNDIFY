@@ -10,7 +10,11 @@ const audienciaSchema = new Schema({
     },
     Password: { 
         type: String, 
-        required: true 
+        required: true,
+        match: [
+            /^(?=.*[!@#$%^&*()\-_+=|\\{}[\]:;'"<>,.?\/])(?=.*\d.*\d.*\d)(?=.*[a-z].*[a-z])(?=.*[A-Z].*[A-Z]).{8,}$/,
+            'La contraseña debe tener al menos 8 caracteres, mínimo 2 signos especiales, mínimo 3 números, mínimo 2 letras minúsculas y mínimo 2 letras mayúsculas.'
+        ]
     },
     Correo: { 
         type: String, 
@@ -30,6 +34,6 @@ const audienciaSchema = new Schema({
         }], 
         default: [] 
     }
-})
+});
 
 module.exports = mongoose.model('Audiencia', audienciaSchema);

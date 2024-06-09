@@ -1,9 +1,9 @@
-POST http://localhost:3000/api/v2/audiencia/login
+POST http://192.168.1.72:3000/api/v2/audiencia/login
 Content-Type: application/json
 
 {
-    "NombreUsuario": "usuario1",
-    "Password": "password1"
+    "NombreUsuario": "Alex",
+    "Password": "1234567890"
 }
 
 ###
