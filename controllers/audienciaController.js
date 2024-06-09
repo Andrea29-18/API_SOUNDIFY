@@ -103,12 +103,23 @@ self.update = async (req, res) => {
     const { nombreUsuario } = req.params;
     const newData = req.body;
 
+    const token = req.headers.authorization;
+
     try {
         if (!nombreUsuario) {
             console.log('Nombre de usuario no proporcionado');
             return res.status(400).json({
                 status: 'error',
                 message: 'Se requiere proporcionar un nombre de usuario para actualizar al usuario'
+            });
+        }
+
+        // Verificar si se proporcionó un token
+        if (!token) {
+            console.log('Token no proporcionado');
+            return res.status(401).json({
+                status: 'error',
+                message: 'Se requiere un token de autenticación para actualizar al usuario'
             });
         }
 
@@ -137,6 +148,7 @@ self.update = async (req, res) => {
         });
     }
 }
+
 
 
 

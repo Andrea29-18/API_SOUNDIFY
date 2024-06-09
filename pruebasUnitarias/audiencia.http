@@ -20,14 +20,13 @@ Content-Type: application/json
 
 ### 
 
-PUT http://localhost:3000/api/v2/audiencia/nombreDeUsuario
+PUT http://localhost:3000/api/v2/audiencia/Alex
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjViZmYwODhkYzQ1YmM0NGExY2UzYjMiLCJOb21icmVVc3VhcmlvIjoibm9tYnJlRGVVc3VhcmlvIiwiQ29ycmVvIjoiY29ycmVvQGVqZW1wbG8uY29tIiwiaWF0IjoxNzE3MzA1NzI4LCJleHAiOjE3MTczMDc1Mjh9.ntCvgmDFSr9fLYdDxvrhIiwcngz9RtuRtguLQ3a5lXM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjY1ZTcwMzk3NzA0NDI0YTliNWYyMDciLCJOb21icmVVc3VhcmlvIjoiQWxleCIsIkNvcnJlbyI6ImFhdnAxNjAyQGhvdG1haWwuY29tIiwiVXNlclR5cGUiOiJBdWRpZW5jaWEiLCJpYXQiOjE3MTc5NTcyNjcsImV4cCI6MTcxNzk1OTA2N30.XmT-2afcVtORE91gVxsIsQJW5eC7wRi5gck5P9JcWts
 
 {
-    "Correo": "correo@prueba.com",
-    "Password": "nuevaPassword2",
-    "NumeroTelefonico": "9876543210"
+    "Correo": "aavp0414@hotmail.com",
+    "NumeroTelefonico": "1245789638"
 }
 
 
