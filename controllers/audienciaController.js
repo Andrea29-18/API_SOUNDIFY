@@ -2,7 +2,7 @@ const User = require('../models/Audiencia');
 const Art = require('../models/Artista');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const jwtSecret = '5f9b327ba659bad1da6609494f4a0157ae3e21e2f4ccd44cfcb42e8dbe3c226531738d'
+const jwtSecret = process.env.JWT_SECRET;
 
 let self = {};
 
