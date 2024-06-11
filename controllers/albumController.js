@@ -52,7 +52,7 @@ self.create = async (req, res) => {
     try {
 
         // Buscar al artista por su nombre
-        const artista = await Artista.findOne({ ArtistaNombre });
+        const artista = await Artista.findOne({ NombreArtista : ArtistaNombre });
         if (!artista) {
             return res.status(404).json({
                 status: 'error',
