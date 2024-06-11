@@ -1,5 +1,5 @@
 const User = require('../models/Audiencia');
-const Art = require('../models/Artista');
+const Artista = require('../models/Artista');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET;
@@ -45,10 +45,9 @@ self.create = async (req, res) => {
 self.login = async (req, res) => {
     const { NombreUsuario, Password } = req.body;
     try {
-
         let USERTYPE = 'Artista';
-        let user = await Art.findOne({ NombreUsuario });
-        
+        let user = await Artista.findOne({ NombreArtista: NombreUsuario });
+
         if (!user) {
             user = await User.findOne({ NombreUsuario });
             USERTYPE = 'Audiencia';

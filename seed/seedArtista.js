@@ -24,7 +24,7 @@ async function seedArtistData() {
                 DescripcionGeneral: `Descripción general del artista ${user.NombreUsuario}`,
                 NumeroTelefonico: user.NumeroTelefonico,
                 Correo: user.Correo,
-                Password: hashedPassword, // Usar la contraseña encriptada
+                Password: user.Password, // Usar la contraseña encriptada
                 Albumes: []
             };
         }));
