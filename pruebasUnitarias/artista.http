@@ -38,7 +38,7 @@ Content-Type: application/json
 
 ### Eliminar un artista (DELETE)
 
-DELETE http://localhost:3000/api/v2/artista/nombreDeArtista
+DELETE http://localhost:3000/api/v2/artista/usuario2
 Content-Type: application/json
 
 ###

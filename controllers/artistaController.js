@@ -101,8 +101,14 @@ self.create = async (req, res) => {
 self.delete = async (req, res) => {
     const { nombre } = req.params;
     try {
-        const deletedArtista = await Artista.deleteOne({ NombreArtista: nombre });
-        if (!deletedArtista) {
+        const deletedArtista = await Artista.deleteOne({ NombreArtista: nombre })
+
+        //Borrar Relaciones
+        const deletedUser = await Audiencia.deleteOne({ NombreUsuario : nombre })
+        //Album
+        //Canciones
+
+        if (!deletedArtista && !deletedUser) {
             return res.status(404).json({
                 status: 'error',
                 message: 'Artista no encontrado'
