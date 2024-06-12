@@ -1,9 +1,9 @@
-POST http://192.168.3.37:3000/api/v2/audiencia/login
+POST http://localhost:3000/api/v2/audiencia/login
 Content-Type: application/json
 
 {
-    "NombreUsuario": "usuario1",
-    "Password": "password1"
+    "NombreUsuario": "usuario5",
+    "Password": "password5"
 }
 
 ###
@@ -22,7 +22,7 @@ Content-Type: application/json
 
 PUT http://192.168.3.37:3000/api/v2/audiencia/Alex
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjY1ZTcwMzk3NzA0NDI0YTliNWYyMDciLCJOb21icmVVc3VhcmlvIjoiQWxleCIsIkNvcnJlbyI6ImFhdnAxNjAyQGhvdG1haWwuY29tIiwiVXNlclR5cGUiOiJBdWRpZW5jaWEiLCJpYXQiOjE3MTc5NTcyNjcsImV4cCI6MTcxNzk1OTA2N30.XmT-2afcVtORE91gVxsIsQJW5eC7wRi5gck5P9JcWts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjY4Yjk4MzFmYmFiM2MxYTM4ZGRkNDciLCJOb21icmVVc3VhcmlvIjoidXN1YXJpbzUiLCJDb3JyZW8iOiJjb3JyZW81QGV4YW1wbGUuY29tIiwiVXNlclR5cGUiOiJBdWRpZW5jaWEiLCJpYXQiOjE3MTgxNjM0MTEsImV4cCI6MTcxODE2NTIxMX0._7UC85uPwJxCxwsMrnxQG1qSupmkjwQR73nuBnRIHE8
 
 {
     "Correo": "aavp0414@hotmail.com",
@@ -33,5 +33,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjY1Z
 
 ### 
 
-DELETE http://192.168.3.37:3000/api/v2/audiencia/nombreUsuarioPrueba
-Authorization: Bearer <TU_TOKEN_JWT>
+DELETE http://localhost:3000/api/v2/audiencia/usuario5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjY4Yjk4MzFmYmFiM2MxYTM4ZGRkNDciLCJOb21icmVVc3VhcmlvIjoidXN1YXJpbzUiLCJDb3JyZW8iOiJjb3JyZW81QGV4YW1wbGUuY29tIiwiVXNlclR5cGUiOiJBdWRpZW5jaWEiLCJpYXQiOjE3MTgxNjM0NTYsImV4cCI6MTcxODE2NTI1Nn0.YH445szKMvBCcAnb83ULhdyBRFpQ49vK2NikjdrIX4Y

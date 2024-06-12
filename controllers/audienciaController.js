@@ -155,7 +155,7 @@ self.delete = async (req, res) => {
     const { NombreUsuario } = req.params;
 
     try {
-        const deletedUser = await User.findOneAndDelete({ NombreUsuario });
+        const deletedUser = await User.deleteOne({ NombreUsuario });
 
         if (!deletedUser) {
             return res.status(404).json({
