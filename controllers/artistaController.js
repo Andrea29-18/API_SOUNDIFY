@@ -101,7 +101,7 @@ self.create = async (req, res) => {
 self.delete = async (req, res) => {
     const { nombre } = req.params;
     try {
-        const deletedArtista = await Artista.findOneAndDelete({ NombreArtista: nombre });
+        const deletedArtista = await Artista.deleteOne({ NombreArtista: nombre });
         if (!deletedArtista) {
             return res.status(404).json({
                 status: 'error',
