@@ -3,19 +3,19 @@ const path = require('path');
 const ArtistaM = require('../models/Artista');
 const AlbumM = require('../models/Album');
 const Cancion = require('../models/Cancion');
-const grpcClient = require('../grpcClient');
+const grpcClient = require('../grpcClient'); // Importa el cliente gRPC
 
 let self = {};
 
 self.create = async (req, res) => {
   try {
-    const { NombreCancion, Idioma, Artista, Album, audioPath } = req.body;
+    const { NombreCancion, Idioma, Artista, Album } = req.body;
 
     // Verificar que todos los campos requeridos están presentes
-    if (!NombreCancion || !Idioma || !Artista || !Album || !audioPath) {
+    if (!NombreCancion || !Idioma || !Artista || !Album || !req.file) {
       return res.status(400).json({
         status: 'error',
-        message: 'Todos los campos son obligatorios: NombreCancion, Idioma, Artista, Album y audioPath.'
+        message: 'Todos los campos son obligatorios: NombreCancion, Idioma, Artista, Album y audio.'
       });
     }
 
@@ -25,7 +25,7 @@ self.create = async (req, res) => {
     if (!artista || !album) {
       return res.status(404).json({
         status: 'error',
-        message: 'Artista o Album no encontrado.'
+        message: 'Artista o Álbum no encontrado.'
       });
     }
 
@@ -36,49 +36,40 @@ self.create = async (req, res) => {
       Artista: artista._id,
       Album: album._id
     });
-
-    // Construir el nombre del archivo en el formato deseado
-    const formattedFileName = `${Artista}${Album}${NombreCancion}${path.extname(audioPath)}`;
-    const stream = fs.createReadStream(audioPath);
+    const audioPath = path.join('uploads', req.file.filename); 
 
     // Llamada a gRPC para subir el archivo de audio
     const call = grpcClient.uploadAudio((error, response) => {
       if (error) {
+        console.error('Error al subir el archivo de audio a través de gRPC:', error);
         return res.status(500).json({
           status: 'error',
           message: 'Error al subir el archivo de audio a través de gRPC.'
         });
       }
 
-      // Guardar la canción en la base de datos después de subir el archivo
-      nuevaCancion.save()
-        .then(() => {
-          return res.status(201).json({
-            status: 'success',
-            message: 'Canción creada y archivo de audio subido exitosamente.',
-            data: nuevaCancion
-          });
-        })
-        .catch((error) => {
-          console.error('Error guardando la canción en la base de datos:', error);
-          return res.status(500).json({
-            status: 'error',
-            message: 'Error guardando la canción en la base de datos.'
-          });
-        });
-    });
-
-    // Enviar el archivo por chunks
-    stream.on('data', (chunk) => {
-      call.write({
-        data: chunk,
-        nombre: formattedFileName
+      // Si la subida a gRPC es exitosa, podemos responder con éxito
+      return res.status(201).json({
+        status: 'success',
+        message: 'Canción creada y archivo de audio subido exitosamente a través de gRPC.',
+        data: nuevaCancion
       });
     });
 
-    stream.on('end', () => {
-      call.end();
-    });
+    const formattedFileName = `${Artista}${Album}${NombreCancion}${path.extname(audioPath)}`;
+    const stream = fs.createReadStream(audioPath);
+
+    // Enviar el archivo por chunks a través de gRPC
+    fs.createReadStream(audioPath)
+      .on('data', (chunk) => {
+        call.write({
+          data: chunk,
+          nombre: formattedFileName 
+        });
+      })
+      .on('end', () => {
+        call.end();
+      });
 
   } catch (error) {
     console.error('Error en el servidor:', error);
@@ -88,6 +79,7 @@ self.create = async (req, res) => {
     });
   }
 }
+
 
 // Verificar si una canción existe y devolver la URL del audio
 self.getCancion = async (req, res) => {
