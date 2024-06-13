@@ -3,7 +3,7 @@ const path = require('path');
 const ArtistaM = require('../models/Artista');
 const AlbumM = require('../models/Album');
 const Cancion = require('../models/Cancion');
-const grpcClient = require('../grpcClient'); // Importa el cliente gRPC
+const grpcClient = require('../grpcClient');
 
 let self = {};
 
