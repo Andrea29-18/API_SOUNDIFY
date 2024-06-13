@@ -1,13 +1,12 @@
-const Cancion = require('../models/Cancion');
-const ArtistaM = require('../models/Artista');
-const AlbumM = require('../models/Album');
-const grpcClient = require('../grpcClient');
 const fs = require('fs');
 const path = require('path');
+const ArtistaM = require('../models/Artista');
+const AlbumM = require('../models/Album');
+const Cancion = require('../models/Cancion');
+const grpcClient = require('../grpcClient');
 
-let self = {}
+let self = {};
 
-// Crear una nueva canción y subir el archivo de audio
 self.create = async (req, res) => {
   try {
     const { NombreCancion, Idioma, Artista, Album, audioPath } = req.body;
@@ -29,7 +28,6 @@ self.create = async (req, res) => {
         message: 'Artista o Album no encontrado.'
       });
     }
-
 
     // Crear el registro de la nueva canción en la base de datos
     const nuevaCancion = await Cancion.create({

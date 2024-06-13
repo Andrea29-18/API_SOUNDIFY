@@ -1,0 +1,10 @@
+POST http://localhost:3000/api/v2/cancion
+Content-Type: application/json
+
+{
+  "NombreCancion": "Prueba21",
+  "Idioma": "Español",
+  "Artista": "usuario1",
+  "Album": "Álbum 1",
+  "audioPath": "C:/Users/aavp0/Downloads/Prueba.mp3"
+}
