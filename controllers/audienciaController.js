@@ -76,7 +76,7 @@ self.login = async (req, res) => {
             NombreUsuario: user.NombreUsuario,
             Correo: user.Correo,
             UserType: USERTYPE
-        }, jwtSecret, { expiresIn: '30m' });
+        }, jwtSecret, { expiresIn: '50m' });
 
         res.status(200).json({
             status: 'success',
@@ -179,5 +179,30 @@ self.delete = async (req, res) => {
         });
     }
 }
+
+self.refreshToken = async (req, res) => {
+    const token = req.headers['authorization'];
+    if (!token) {
+        return res.status(401).json({ status: 'error', message: 'Token no proporcionado' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, jwtSecret);
+        const newToken = jwt.sign({
+            userId: decoded.userId,
+            NombreUsuario: decoded.NombreUsuario,
+            Correo: decoded.Correo,
+            UserType: decoded.UserType
+        }, jwtSecret, { expiresIn: '30m' });
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Token renovado exitosamente',
+            token: newToken
+        });
+    } catch (error) {
+        return res.status(401).json({ status: 'error', message: 'Token inválido o expirado' });
+    }
+};
 
 module.exports = self;
