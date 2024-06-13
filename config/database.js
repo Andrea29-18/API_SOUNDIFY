@@ -1,12 +1,13 @@
+const mongoose = require('mongoose');
+require('dotenv').config({ path: './config/.env' });
+const DB_URI = process.env.DB_URI_LOCAL;
+const DB_URI_NUBE = process.env.DB_CONNECTION;
+
+
 /*NUBE
-const mongoose = require('mongoose')
-require('dotenv').config()
-
-const DB_URI = 'mongodb+srv://aavp0316:EDN0X8soxBO6OpTU@cluster0.wrh2jsu.mongodb.net/Soundify?retryWrites=true&w=majority&appName=Cluster0'
-
 module.exports = () => {
   const connect = () => {
-    mongoose.connect(DB_URI, {
+    mongoose.connect(DB_URI_NUBE, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
@@ -26,8 +27,6 @@ module.exports = () => {
 */
 
 //LOCAL
-const mongoose = require('mongoose');
-const DB_URI = 'mongodb://localhost:27017/Soundify';
 
 module.exports = () => {
   const connect = () => {
