@@ -14,7 +14,8 @@ const audienciaSchema = new Schema({
         match: [
             /^(?=.*[!@#$%^&*()\-_+=|\\{}[\]:;'"<>,.?\/])(?=.*\d.*\d.*\d)(?=.*[a-z].*[a-z])(?=.*[A-Z].*[A-Z]).{8,}$/,
             'La contraseña debe tener al menos 8 caracteres, mínimo 2 signos especiales, mínimo 3 números, mínimo 2 letras minúsculas y mínimo 2 letras mayúsculas.'
-        ]
+        ],
+        required: true
     },
     Correo: { 
         type: String, 

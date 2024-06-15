@@ -1,17 +1,30 @@
-POST http://localhost:3000/api/v2/audiencia/login
+POST http://192.168.168.102:3000/api/v2/audiencia/login
 Content-Type: application/json
 
 {
-    "NombreUsuario": "usuario5",
-    "Password": "password5"
+    "NombreUsuario": "usuario1",
+    "Password": "password1"
 }
 
 ###
-POST http://192.168.3.37:3000/api/v2/audiencia
+
+GET http://192.168.168.102:3000/api/v2/audiencia/refresh-token
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjZjN2M1MzgzZGEzYWUxMTYyYTVmZWMiLCJDb3JyZW8iOiJjb3JyZW8xQGV4YW1wbGUuY29tIiwiVXNlclR5cGUiOiJBcnRpc3RhIiwiaWF0IjoxNzE4MzkyNTA2LCJleHAiOjE3MTgzOTU1MDZ9.Q1vkFCuJi9ZsssCacR0eMT8iboZygrMjJTMiC963fSg
+
+
+{
+    "NombreUsuario": "usuario1",
+    "Password": "password1"
+}
+
+
+###
+POST http://localhost:3000/api/v2/audiencia
 Content-Type: application/json
 
 {
-    "Correo": "correo@ejemplo.com", 
+    "Correo": "ejesdcsdmplocom", 
     "NombreUsuario": "nombreDeUsuario",
     "Password": "contraseña",
     "NumeroTelefonico": "1234567890",

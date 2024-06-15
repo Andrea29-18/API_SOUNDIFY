@@ -14,11 +14,11 @@ Content-Type: application/json
 
 ### Crear un nuevo artista (POST)
 
-POST http://localhost:3000/api/v2/artista
+POST http://localhost:3000/api/v2/artista/
 Content-Type: application/json
 
 {
-    "Correo": "correo@ejemplo.com",
+    "Correo": ".com",
     "DescripcionGeneral": "Descripción del artista"
 }
 
@@ -26,10 +26,11 @@ Content-Type: application/json
 
 ### Actualizar información de un artista existente (PUT)
 
-PUT http://localhost:3000/api/v2/artista/nombreDeArtista
+PUT http://localhost:3000/api/v2/artista/usuario1
 Content-Type: application/json
 
 {
+    "Correo": "nuevoCorreo",
     "DescripcionGeneral": "Nueva descripción del artista",
     "NumeroTelefonico": "9876543210"
 }

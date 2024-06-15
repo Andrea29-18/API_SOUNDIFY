@@ -11,6 +11,7 @@ self.create = async (req, res) => {
     const { Correo, NombreUsuario, Password, NumeroTelefonico } = req.body;
     try {
         const existingUser = await User.findOne({ Correo });
+        
         if (existingUser) {
             return res.status(400).json({
                 status: 'error',
